@@ -31,7 +31,10 @@ gulp.task('pre-test', () => gulp.src(['./**/*.js'])
 gulp.task('test', () => {
   env({
     vars: {
-      NODE_ENV: 'test', EXPIRES: 3, PORT: 3005, MONGODB_URI: 'mongodb://localhost:27017/schedules',
+      NODE_ENV: 'test',
+      EXPIRES: 3,
+      PORT: 3005,
+      MONGODB_URI: 'mongodb://localhost:27017/schedules',
     },
   });
 

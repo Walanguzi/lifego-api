@@ -1,20 +1,16 @@
-const { resolver } = require('graphql-sequelize');
 const { Op: { iLike } } = require('sequelize');
-const { Bucketlist } = require('../../../models');
+const { bucketlists: Bucketlist } = require('../../../models');
 
-module.exports = async (root, body, context, info) => resolver(Bucketlist, {
-  dataLoader: false,
-  before: (findOptions) => {
-    const { query: { name, offset, limit } } = context;
-    return ({
-      offset,
-      limit,
-      where: {
-        name: { [iLike]: `%${name}%` },
-      },
-      order: [['name', 'ASC']],
-      ...findOptions,
-    });
-  },
-  after: result => result,
-}, context, info);
+module.exports = async (root, args) => {
+  const { name, offset, limit } = args;
+  const bucketlists = await Bucketlist.findAll({
+    offset: offset || 0,
+    limit: limit || 50,
+    where: {
+      name: { [iLike]: `%${name || ''}%` },
+    },
+    order: [['name', 'ASC']],
+    plain: true,
+  });
+  return bucketlists;
+};

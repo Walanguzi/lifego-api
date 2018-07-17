@@ -25,14 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
     },
-    createdAt: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   }, {
     classMethods: {
       associate(models) {

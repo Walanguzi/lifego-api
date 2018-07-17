@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     dueDate: {
       type: DataTypes.DATE,
@@ -40,14 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     privacy: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    updatedAt: {
       type: DataTypes.STRING,
       allowNull: false,
     },

@@ -27,13 +27,17 @@ module.exports = {
     },
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     dueDate: {
       type: Sequelize.DATE,
       allowNull: true,
     },
     category: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    location: {
       type: Sequelize.STRING,
       allowNull: true,
     },
