@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 const cors = require('cors');
 
+const authRoute = require('./routes/authRoutes');
 const oauth = require('./oauth');
 const schema = require('../server/schema');
-const verifyToken = require('./lib/helpers/verifyToken');
+const verifyToken = require('./lib/middleware/verifyToken');
 
 module.exports = (app, server) => {
   app.use(cors());
@@ -14,14 +15,16 @@ module.exports = (app, server) => {
 
   const socket = socketio(server, { pingTimeout: 30000 });
 
-  app.use('/graphql', bodyParser.json(), verifyToken, (req, res, next) => graphqlExpress({
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+
+  app.use('/api/auth', authRoute());
+
+  app.use('/api/graphql', bodyParser.json(), verifyToken, (req, res, next) => graphqlExpress({
     schema,
     context: {
       socket,
-      decoded: {
-        id: 'dacssfv',
-        displayName: 'oliver',
-      },
+      decoded: req.decoded,
     },
     formatError: ({ message, extensions }) => ({
       message,
@@ -29,7 +32,7 @@ module.exports = (app, server) => {
     }),
   })(req, res, next));
 
-  app.use('/graphiql', graphiqlExpress({
+  app.use('/api/graphiql', graphiqlExpress({
     endpointURL: '/graphiql',
     passHeader: '\'token\': \'token-foo@bar.com\'',
   }));

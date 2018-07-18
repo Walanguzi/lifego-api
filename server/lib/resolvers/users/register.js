@@ -1,26 +1,32 @@
 const passwordHash = require('password-hash');
-const { users: User } = require('../../../models');
 
-module.exports = async (root, body) => {
-  const args = body;
+const { validateFields } = require('../../utils/validationUtils');
+const { createUser } = require('../../helpers/userHelper');
 
-  await new Promise((resolve) => {
-    resolve(args.password = passwordHash.generate(args.password));
-  });
+module.exports = (request, response) => {
+  const keys = ['displayName', 'email', 'password'];
 
-  const [user, created] = await User.findOrCreateUser({
-    where: {
-      email: args.email,
-    },
-    defaults: args,
-  });
+  validateFields(request, response, keys, async () => {
+    request.body.password = await new Promise((resolve) => {
+      resolve(passwordHash.generate(request.body.password));
+    });
 
-  if (!args.social) {
-    if (created) {
-      return user;
+    request.body.username = request.body.email;
+
+    const user = await createUser(request);
+
+    if (!user) {
+      response.status(409);
+      response.json({ message: 'Email already in use' });
+      return;
     }
-    return Object.assign(new Error('Email already in use'), { extensions: { code: 409 } });
-  }
 
-  return user;
+    const message = request.body.social ? '' : `Successfully registered with username ${user.username}`;
+
+    response.status(201);
+    response.json({
+      message,
+      user,
+    });
+  });
 };

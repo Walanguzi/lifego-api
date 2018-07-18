@@ -37,6 +37,18 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    social: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true,
+    },
+    reminders: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true,
+    },
+    userId: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
   }),
   down: queryInterface => queryInterface.dropTable('users'),
 };

@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     social: {
       type: DataTypes.BOOLEAN,
+      allowNull: true,
     },
     reminders: {
       type: DataTypes.BOOLEAN,
