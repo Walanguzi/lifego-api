@@ -6,7 +6,7 @@ const {
 const { attributeFields } = require('graphql-sequelize');
 const { bucketlists: Bucketlist } = require('../../models');
 const comment = require('../Comment');
-const item = require('../Item');
+const { item } = require('../Item/types');
 const like = require('../Like');
 
 const bucketlistFields = attributeFields(Bucketlist);

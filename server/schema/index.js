@@ -4,10 +4,11 @@ const {
 } = require('graphql');
 
 const { bucketlist } = require('./Bucketlist/types');
+const { item } = require('./Item/types');
 const bucketlistMutations = require('./Bucketlist/mutations');
+const itemMutations = require('./Item/mutations');
 const Comment = require('./Comment');
 const Conversation = require('./Conversation');
-const Item = require('./Item');
 const Like = require('./Like');
 const Message = require('./Message');
 const Notification = require('./Notification');
@@ -21,7 +22,7 @@ module.exports = new GraphQLSchema({
       Bucketlist: { type: bucketlist },
       Comment: { type: Comment },
       Conversation: { type: Conversation },
-      Item: { type: Item },
+      Item: { type: item },
       Like: { type: Like },
       Message: { type: Message },
       Notification: { type: Notification },
@@ -33,6 +34,7 @@ module.exports = new GraphQLSchema({
     name: 'RootMutation',
     fields: () => ({
       ...bucketlistMutations,
+      ...itemMutations,
     }),
   }),
 });
