@@ -5,9 +5,10 @@ const {
 
 const { bucketlist } = require('./Bucketlist/types');
 const { item } = require('./Item/types');
+const { comment } = require('./Comment/types');
 const bucketlistMutations = require('./Bucketlist/mutations');
 const itemMutations = require('./Item/mutations');
-const Comment = require('./Comment');
+const commentMutations = require('./Comment/mutations');
 const Conversation = require('./Conversation');
 const Like = require('./Like');
 const Message = require('./Message');
@@ -20,7 +21,7 @@ module.exports = new GraphQLSchema({
     name: 'RootQuery',
     fields: () => ({
       Bucketlist: { type: bucketlist },
-      Comment: { type: Comment },
+      Comment: { type: comment },
       Conversation: { type: Conversation },
       Item: { type: item },
       Like: { type: Like },
@@ -35,6 +36,7 @@ module.exports = new GraphQLSchema({
     fields: () => ({
       ...bucketlistMutations,
       ...itemMutations,
+      ...commentMutations,
     }),
   }),
 });
