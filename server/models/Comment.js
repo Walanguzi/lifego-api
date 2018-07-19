@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     senderId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     bucketlistId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
   }, {

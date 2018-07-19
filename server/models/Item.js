@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     bucketlistId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
   }, {
     classMethods: {

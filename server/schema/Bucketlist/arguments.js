@@ -1,6 +1,7 @@
 const {
   GraphQLNonNull,
   GraphQLString,
+  GraphQLInt,
 } = require('graphql');
 
 const createBucketlistArgs = {
@@ -24,24 +25,35 @@ const createBucketlistArgs = {
   },
 };
 
-const updatBucketlistArgs = {
-  ...createBucketlistArgs,
-  name: {
-    type: GraphQLString,
-  },
-  id: {
-    type: new GraphQLNonNull(GraphQLString),
-  },
-};
-
 const getBucketlistArgs = {
   id: {
     type: new GraphQLNonNull(GraphQLString),
   },
 };
 
+const listArgs = {
+  offset: {
+    type: GraphQLInt,
+  },
+  limit: {
+    type: GraphQLInt,
+  },
+  name: {
+    type: GraphQLString,
+  },
+};
+
+const updateBucketlistArgs = {
+  ...createBucketlistArgs,
+  ...getBucketlistArgs,
+};
+
+const deleteBucketlistArgs = getBucketlistArgs;
+
 module.exports = {
   createBucketlistArgs,
-  updatBucketlistArgs,
+  updateBucketlistArgs,
   getBucketlistArgs,
+  deleteBucketlistArgs,
+  listArgs,
 };

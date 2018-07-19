@@ -1,25 +1,29 @@
-
-const { bucketlists } = require('../../../models');
+const { createRecord, generateError } = require('../../utils');
 
 module.exports = async (root, body, context) => {
   if (body.name) {
-    const [bucketlist, created] = await bucketlists.findOrCreate({
+    const [bucketlist, created] = await createRecord('bucketlists', {
       where: {
         name: body.name,
         userId: context.decoded.id,
       },
-      plain: true,
-      defaults: {
-        ...body,
-        privacy: body.privacy || context.decoded.privacy || 'friends',
-        createdBy: context.decoded.displayName,
-        userId: context.decoded.id,
-      },
+    },
+    {
+      ...body,
+      privacy: body.privacy || context.decoded.privacy || 'friends',
+      createdBy: context.decoded.displayName,
+      userId: context.decoded.id,
     });
     if (created) {
       return bucketlist;
     }
-    return Object.assign(new Error('Name already in use'), { extensions: { code: 409 } });
+    return generateError({
+      message: 'Name already in use',
+      code: 409,
+    });
   }
-  return Object.assign(new Error('Missing name'), { extensions: { code: 400 } });
+  return generateError({
+    message: 'Missing name',
+    code: 400,
+  });
 };

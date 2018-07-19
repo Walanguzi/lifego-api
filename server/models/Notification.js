@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     bucketlistId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     sourceUserId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     read: {
       type: DataTypes.BOOLEAN,

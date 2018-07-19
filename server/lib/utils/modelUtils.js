@@ -10,15 +10,9 @@ const findOne = (model, options) => models[model].findOne({
   plain: true,
 });
 
-const findAll = (model, options) => models[model].findAll({
-  ...options,
-  plain: true,
-});
+const findAll = (model, options) => models[model].findAll(options);
 
-const findAndCount = (model, options) => models[model].findAndCount({
-  ...options,
-  plain: true,
-});
+const findAndCount = (model, options) => models[model].findAndCount(options);
 
 const createRecord = (model, options, defaults) => models[model].findOrCreate({
   ...options,
@@ -26,14 +20,20 @@ const createRecord = (model, options, defaults) => models[model].findOrCreate({
   defaults,
 });
 
-const updateRecord = (model, options, data) => models[model].update(data, {
-  ...options,
-  plain: true,
-});
+const updateRecord = async (model, options, data) => {
+  const [_, newRecord] = await models[model].update(data, { // eslint-disable-line no-unused-vars
+    ...options,
+    plain: true,
+    returning: true,
+  });
+  return newRecord;
+};
 
 const deleteRecord = (model, id) => models[model].destroy({
   where: { id },
 });
+
+const getModel = model => models[model];
 
 module.exports = {
   findById,
@@ -43,4 +43,5 @@ module.exports = {
   createRecord,
   updateRecord,
   deleteRecord,
+  getModel,
 };

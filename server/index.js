@@ -32,8 +32,10 @@ module.exports = (app, server) => {
     }),
   })(req, res, next));
 
-  app.use('/api/graphiql', graphiqlExpress({
-    endpointURL: '/graphiql',
-    passHeader: '\'token\': \'token-foo@bar.com\'',
-  }));
+  if (process.env.NODE_ENV === 'development') {
+    app.use('/api/graphiql', graphiqlExpress({
+      endpointURL: '/api/graphiql',
+      passHeader: '\'token\': \'token-foo@bar.com\'',
+    }));
+  }
 };

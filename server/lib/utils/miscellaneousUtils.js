@@ -35,9 +35,16 @@ const asyncForEach = async (array, callback) => {
   }
 };
 
+const generateError = ({ message, code }) => {
+  const error = new Error(message);
+  error.extensions = { code };
+  return error;
+};
+
 module.exports = {
   generatePassword,
   stringifyFunctions,
   evalFunctions,
   asyncForEach,
+  generateError,
 };

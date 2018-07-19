@@ -4,7 +4,7 @@ const {
 } = require('graphql');
 
 module.exports = new GraphQLObjectType({
-  name: 'DeleteMessage',
+  name: 'SuccessMessage',
   fields: () => ({
     message: {
       type: GraphQLString,

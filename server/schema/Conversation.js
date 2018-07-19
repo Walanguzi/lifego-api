@@ -6,6 +6,6 @@ const { conversations } = require('../models');
 
 module.exports = new GraphQLObjectType({
   name: 'Conversation',
-  description: 'A conversations',
+  description: 'A conversation',
   fields: attributeFields(conversations),
 });

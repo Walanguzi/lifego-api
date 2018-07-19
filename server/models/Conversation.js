@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: () => generateId(),
     },
     senderId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     receiverId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
   }, {

@@ -3,7 +3,7 @@ const {
   GraphQLObjectType,
 } = require('graphql');
 
-const Bucketlist = require('./Bucketlist/type');
+const { bucketlist } = require('./Bucketlist/types');
 const bucketlistMutations = require('./Bucketlist/mutations');
 const Comment = require('./Comment');
 const Conversation = require('./Conversation');
@@ -18,7 +18,7 @@ module.exports = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQuery',
     fields: () => ({
-      Bucketlist: { type: Bucketlist },
+      Bucketlist: { type: bucketlist },
       Comment: { type: Comment },
       Conversation: { type: Conversation },
       Item: { type: Item },

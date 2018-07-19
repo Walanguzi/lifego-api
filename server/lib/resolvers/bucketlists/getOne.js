@@ -1,10 +1,14 @@
-const { Bucketlist } = require('../../../models');
+const { findById, generateError } = require('../../utils');
+const { getAssociationOptions } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body) => {
-  const bucketlist = await Bucketlist.findOne({
-    where: { id: body.id },
-    plain: true,
+  const associationOptions = getAssociationOptions();
+  const bucketlist = await findById('bucketlists', body.id, associationOptions);
+  if (bucketlist) {
+    return bucketlist;
+  }
+  return generateError({
+    message: 'Bucketlist not found',
+    code: 404,
   });
-  if (bucketlist) return bucketlist;
-  return Object.assign(new Error('Bucketlist not found'), { extensions: { code: 404 } });
 };

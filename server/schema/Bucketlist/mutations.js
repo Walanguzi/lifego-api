@@ -1,48 +1,56 @@
-const { GraphQLList } = require('graphql');
-const type = require('./type');
-const createBucketlist = require('../../lib/resolvers/bucketlists/create');
-const { createBucketlistArgs, updatBucketlistArgs } = require('./arguments');
+const { bucketlist, bucketlists } = require('./types');
+const {
+  createBucketlistArgs,
+  updateBucketlistArgs,
+  getBucketlistArgs,
+  deleteBucketlistArgs,
+  listArgs,
+} = require('./arguments');
 const {
   list,
   getBucketlist,
   deleteBucketlist,
   listAll,
   explore,
-  updatBucketlist,
-  getBucketlistArgs,
+  updateBucketlist,
+  createBucketlist,
 } = require('../../lib/resolvers/bucketlists');
-const { DeleteMessage } = require('../Common');
+const { successMessage } = require('../Common/types');
 
 module.exports = {
   createBucketlist: {
-    type,
+    type: bucketlist,
     args: createBucketlistArgs,
     resolve: createBucketlist,
   },
   getBucketlist: {
-    type,
+    type: bucketlist,
     args: getBucketlistArgs,
     resolve: getBucketlist,
   },
   updateBucketlist: {
-    type,
-    args: updatBucketlistArgs,
-    resolve: updatBucketlist,
+    type: bucketlist,
+    args: updateBucketlistArgs,
+    resolve: updateBucketlist,
   },
   list: {
-    type: new GraphQLList(type),
+    type: bucketlists,
+    args: listArgs,
     resolve: list,
   },
   listAll: {
-    type: new GraphQLList(type),
+    type: bucketlists,
+    args: listArgs,
     resolve: listAll,
   },
   explore: {
-    type: new GraphQLList(type),
+    type: bucketlists,
+    args: listArgs,
     resolve: explore,
   },
   deleteBucketlist: {
-    type: DeleteMessage,
+    type: successMessage,
+    args: deleteBucketlistArgs,
     resolve: deleteBucketlist,
   },
 };

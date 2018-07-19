@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: () => generateId(),
     },
     bucketlistId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     likerId: {
       type: DataTypes.INTEGER,

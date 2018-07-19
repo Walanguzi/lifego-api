@@ -1,16 +1,26 @@
-const { Op: { iLike } } = require('sequelize');
-const { bucketlists: Bucketlist } = require('../../../models');
+const { Op: { iLike }, fn } = require('sequelize');
+const { findAll } = require('../../utils');
+const { getAssociationOptions } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, args) => {
-  const { name, offset, limit } = args;
-  const bucketlists = await Bucketlist.findAll({
-    offset: offset || 0,
-    limit: limit || 50,
+  const { name, offset: off, limit: lim } = args;
+  const offset = off || 0;
+  const limit = lim || 50;
+  const associationOptions = getAssociationOptions();
+
+  const bucketlists = await findAll('bucketlists', {
+    offset,
+    limit,
     where: {
       name: { [iLike]: `%${name || ''}%` },
+      privacy: 'everyone',
     },
-    order: [['name', 'ASC']],
-    plain: true,
+    ...associationOptions,
+    order: [fn('RANDOM')],
   });
-  return bucketlists;
+
+  const count = bucketlists.length;
+  const nextOffset = count > (offset + limit) ? offset + limit : null;
+  const prevOffset = offset > 0 ? offset - limit : null;
+  return { bucketlists, nextOffset, prevOffset };
 };
