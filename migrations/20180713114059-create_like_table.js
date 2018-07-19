@@ -6,11 +6,11 @@ module.exports = {
       primaryKey: true,
     },
     bucketlistId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     likerId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     createdAt: {

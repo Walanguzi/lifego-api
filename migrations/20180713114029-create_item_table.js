@@ -28,7 +28,7 @@ module.exports = {
     },
     bucketlistId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
   }),
   down: queryInterface => queryInterface.dropTable('items'),

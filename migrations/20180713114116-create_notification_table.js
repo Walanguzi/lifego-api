@@ -14,13 +14,13 @@ module.exports = {
       allowNull: true,
     },
     bucketlistId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     sourceUserId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     read: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.STRING,
       allowNull: false,
       defaultValue: false,
     },

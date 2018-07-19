@@ -10,11 +10,11 @@ module.exports = {
       allowNull: false,
     },
     senderId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     conversationId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     createdAt: {

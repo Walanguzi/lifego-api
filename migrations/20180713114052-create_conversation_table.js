@@ -6,11 +6,11 @@ module.exports = {
       type: Sequelize.STRING,
     },
     senderId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     receiverId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     createdAt: {
@@ -22,7 +22,7 @@ module.exports = {
       type: Sequelize.DATE,
     },
     userId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
   }),
   down: queryInterface => queryInterface.dropTable('conversations'),

@@ -10,7 +10,7 @@ module.exports = {
       allowNull: false,
     },
     senderId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: true,
     },
     createdAt: {
@@ -22,7 +22,7 @@ module.exports = {
       type: Sequelize.DATE,
     },
     bucketlistId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
   }),
   down: queryInterface => queryInterface.dropTable('comments'),
