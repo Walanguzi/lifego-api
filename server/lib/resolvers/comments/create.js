@@ -13,12 +13,12 @@ module.exports = async (root, body, context) => {
     });
   }
   if (body.content) {
-    const [item] = await createRecord('comments', {
+    const [comment] = await createRecord('comments', {
       where: {
         content: '',
       },
     }, body);
-    return item;
+    return comment;
   }
   return generateError({
     message: 'Missing content',

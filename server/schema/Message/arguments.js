@@ -4,36 +4,36 @@ const {
   GraphQLBoolean,
 } = require('graphql');
 
-const createItemArgs = {
-  name: {
+const createMessageArgs = {
+  content: {
     type: new GraphQLNonNull(GraphQLString),
   },
-  bucketlistId: {
+  conversationId: {
     type: new GraphQLNonNull(GraphQLString),
   },
-  done: {
+  read: {
     type: GraphQLBoolean,
   },
 };
 
-const getItemArgs = {
+const getMessageArgs = {
   id: {
     type: new GraphQLNonNull(GraphQLString),
   },
-  bucketlistId: {
+  conversationId: {
     type: new GraphQLNonNull(GraphQLString),
   },
 };
 
-const updateItemArgs = {
-  ...createItemArgs,
-  ...getItemArgs,
+const updateMessageArgs = {
+  ...createMessageArgs,
+  ...getMessageArgs,
 };
 
-const deleteItemArgs = getItemArgs;
+const deleteMessageArgs = getMessageArgs;
 
 module.exports = {
-  createItemArgs,
-  updateItemArgs,
-  deleteItemArgs,
+  createMessageArgs,
+  updateMessageArgs,
+  deleteMessageArgs,
 };
