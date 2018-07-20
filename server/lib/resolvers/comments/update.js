@@ -3,7 +3,7 @@ const {
   updateRecord,
 } = require('../../utils');
 const { findComment } = require('../../helpers/commentHelper');
-const { findBucketlist } = require('../../helpers/bucketlistHelper');
+const { findBucketlist, addCommentUserDetails } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body, context) => {
   const bucketlist = await findBucketlist(body.bucketlistId, context);
@@ -24,5 +24,5 @@ module.exports = async (root, body, context) => {
     where: { id: body.id },
   }, body);
 
-  return newComment;
+  return addCommentUserDetails(newComment);
 };

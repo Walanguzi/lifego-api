@@ -1,5 +1,5 @@
 const { findAll } = require('../../utils');
-const { getAssociationOptions } = require('../../helpers/conversationHelper');
+const { getAssociationOptions, addUserProperties } = require('../../helpers/conversationHelper');
 
 const associationOptions = getAssociationOptions();
 
@@ -13,5 +13,5 @@ module.exports = async (root, body, context) => {
     },
     ...associationOptions,
   });
-  return conversations;
+  return addUserProperties(conversations);
 };

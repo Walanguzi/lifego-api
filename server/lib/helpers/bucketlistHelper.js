@@ -1,9 +1,10 @@
-const { findById, getModel, findOne } = require('../utils');
+const {
+  findById, getModel, findOne, asyncForEach,
+} = require('../utils');
 
 const Item = getModel('items');
 const Comment = getModel('comments');
 const Like = getModel('likes');
-
 
 const filterByPrivacy = (rows, context) => rows.filter(async (bucketlist) => {
   if (bucketlist.privacy === 'everyone') {
@@ -58,9 +59,41 @@ const findBucketlist = (id, context) => findOne('bucketlists', {
   },
 });
 
+const addCommentUserDetails = async (comment) => {
+  const user = await findById('users', comment.senderId);
+  return ({
+    ...comment.dataValues,
+    user: user.dataValues.displayName,
+    userPictureUrl: user.dataValues.pictureUrl,
+  });
+};
+
+const addUserProperties = async (bucketlist) => {
+  const comments = [];
+  await asyncForEach(bucketlist.comments, async (comment) => {
+    comments.push(await addCommentUserDetails(comment));
+  });
+  const user = await findById('users', bucketlist.userId);
+  return {
+    ...bucketlist.dataValues,
+    comments,
+    user: user.dataValues.displayName,
+    userPictureUrl: user.dataValues.pictureUrl,
+  };
+};
+
+const addListUserProperties = async (bucketlists) => {
+  const returnBucketlists = [];
+  await asyncForEach(bucketlists, async (bucketlist) => {
+    returnBucketlists.push(await addUserProperties(bucketlist));
+  });
+  return returnBucketlists;
+};
 
 module.exports = {
   filterByPrivacy,
   getAssociationOptions,
   findBucketlist,
+  addUserProperties,
+  addListUserProperties,
 };

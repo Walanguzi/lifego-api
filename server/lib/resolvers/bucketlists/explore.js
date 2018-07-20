@@ -1,6 +1,6 @@
 const { Op: { iLike }, fn } = require('sequelize');
 const { findAll } = require('../../utils');
-const { getAssociationOptions } = require('../../helpers/bucketlistHelper');
+const { getAssociationOptions, addListUserProperties } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, args) => {
   const { name, offset: off, limit: lim } = args;
@@ -8,7 +8,7 @@ module.exports = async (root, args) => {
   const limit = lim || 50;
   const associationOptions = getAssociationOptions();
 
-  const bucketlists = await findAll('bucketlists', {
+  let bucketlists = await findAll('bucketlists', {
     offset,
     limit,
     where: {
@@ -19,6 +19,7 @@ module.exports = async (root, args) => {
     order: [fn('RANDOM')],
   });
 
+  bucketlists = await addListUserProperties(bucketlists);
   const count = bucketlists.length;
   const nextOffset = count > (offset + limit) ? offset + limit : null;
   const prevOffset = offset > 0 ? offset - limit : null;

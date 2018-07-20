@@ -2,7 +2,7 @@ const {
   createRecord,
   generateError,
 } = require('../../utils');
-const { findConversation } = require('../../helpers/conversationHelper');
+const { findConversation, addMessageUserDetails } = require('../../helpers/conversationHelper');
 
 module.exports = async (root, body, context) => {
   const conversation = await findConversation(body.conversationId, context);
@@ -17,8 +17,11 @@ module.exports = async (root, body, context) => {
       where: {
         content: '',
       },
-    }, body);
-    return message;
+    }, {
+      ...body,
+      senderId: context.decoded.id,
+    });
+    return addMessageUserDetails(message);
   }
   return generateError({
     message: 'Missing content',

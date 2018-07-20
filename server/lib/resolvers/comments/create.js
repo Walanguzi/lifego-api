@@ -2,7 +2,7 @@ const {
   createRecord,
   generateError,
 } = require('../../utils');
-const { findBucketlist } = require('../../helpers/bucketlistHelper');
+const { findBucketlist, addCommentUserDetails } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body, context) => {
   const bucketlist = await findBucketlist(body.bucketlistId, context);
@@ -18,7 +18,7 @@ module.exports = async (root, body, context) => {
         content: '',
       },
     }, body);
-    return comment;
+    return addCommentUserDetails(comment);
   }
   return generateError({
     message: 'Missing content',

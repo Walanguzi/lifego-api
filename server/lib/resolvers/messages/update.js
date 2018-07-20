@@ -3,7 +3,7 @@ const {
   updateRecord,
 } = require('../../utils');
 const { findMessage } = require('../../helpers/messageHelper');
-const { findConversation } = require('../../helpers/conversationHelper');
+const { findConversation, addMessageUserDetails } = require('../../helpers/conversationHelper');
 
 module.exports = async (root, body, context) => {
   const conversation = await findConversation(body.conversationId, context);
@@ -24,5 +24,5 @@ module.exports = async (root, body, context) => {
     where: { id: body.id },
   }, body);
 
-  return newMessage;
+  return addMessageUserDetails(newMessage);
 };
