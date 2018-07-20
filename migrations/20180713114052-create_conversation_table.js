@@ -21,9 +21,6 @@ module.exports = {
       allowNull: false,
       type: Sequelize.DATE,
     },
-    userId: {
-      type: Sequelize.STRING,
-    },
   }),
   down: queryInterface => queryInterface.dropTable('conversations'),
 };

@@ -34,7 +34,6 @@ db.bucketlists.hasMany(db.comments);
 db.bucketlists.hasMany(db.likes);
 db.conversations.hasMany(db.messages);
 db.users.hasMany(db.bucketlists);
-db.users.hasMany(db.conversations);
 db.users.hasMany(db.users);
 
 db.users.belongsToMany(db.users, {
@@ -44,7 +43,6 @@ db.users.belongsToMany(db.users, {
 db.comments.belongsTo(db.bucketlists);
 db.likes.belongsTo(db.bucketlists);
 db.items.belongsTo(db.bucketlists);
-db.messages.belongsTo(db.users);
 db.messages.belongsTo(db.conversations);
 db.bucketlists.belongsTo(db.users);
 

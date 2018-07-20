@@ -51,14 +51,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
           },
         });
-        User.hasMany(models.Message, {
-          as: 'messages',
-          onDelete: 'cascade',
-          foreignKey: {
-            name: 'senderId',
-            allowNull: false,
-          },
-        });
         User.hasMany(models.Like, {
           as: 'likes',
           onDelete: 'cascade',

@@ -13,6 +13,10 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    social: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true,
+    },
     conversationId: {
       type: Sequelize.STRING,
       allowNull: false,
