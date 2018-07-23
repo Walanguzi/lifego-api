@@ -13,7 +13,16 @@ module.exports = async (root, { id }, context) => {
       code: 404,
     });
   }
+
   await deleteRecord('bucketlists', id);
+
+  context.socket.emit('bucketlists', {
+    type: 'delete',
+    bucketlist: {
+      id,
+      userId: context.decoded.id,
+    },
+  });
 
   return {
     message: 'success',

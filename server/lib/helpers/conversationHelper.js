@@ -32,6 +32,29 @@ const addMessageUserDetails = async (message) => {
   });
 };
 
+const addConversationUserDetails = async (conversation) => {
+  const {
+    dataValues: {
+      displayName: senderDisplayName,
+      pictureUrl: senderPictureUrl,
+    },
+  } = await findById('users', conversation.senderId);
+  const {
+    dataValues: {
+      displayName: receiverDisplayName,
+      pictureUrl: receiverPictureUrl,
+    },
+  } = await findById('users', conversation.receiverId);
+
+  return ({
+    ...conversation.dataValues,
+    senderDisplayName,
+    senderPictureUrl,
+    receiverDisplayName,
+    receiverPictureUrl,
+  });
+};
+
 const addUserProperties = async (conversations) => {
   const returnCovnersations = [];
   const messages = [];
@@ -58,4 +81,5 @@ module.exports = {
   findConversation,
   addUserProperties,
   addMessageUserDetails,
+  addConversationUserDetails,
 };

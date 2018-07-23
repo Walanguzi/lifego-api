@@ -12,14 +12,25 @@ module.exports = async (root, body, context) => {
       code: 404,
     });
   }
+
   if (body.content) {
-    const [comment] = await createRecord('comments', {
+    let [comment] = await createRecord('comments', {
       where: {
         content: '',
       },
     }, body);
-    return addCommentUserDetails(comment);
+
+    comment = await addCommentUserDetails(comment);
+
+    context.socket.emit('comments', {
+      type: 'new',
+      sourceUserId: context.decoded.id,
+      comment,
+    });
+
+    return comment;
   }
+
   return generateError({
     message: 'Missing content',
     code: 400,

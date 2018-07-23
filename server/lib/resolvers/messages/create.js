@@ -6,14 +6,16 @@ const { findConversation, addMessageUserDetails } = require('../../helpers/conve
 
 module.exports = async (root, body, context) => {
   const conversation = await findConversation(body.conversationId, context);
+
   if (!conversation) {
     return generateError({
       message: 'Conversation not found',
       code: 404,
     });
   }
+
   if (body.content) {
-    const [message] = await createRecord('messages', {
+    let [message] = await createRecord('messages', {
       where: {
         content: '',
       },
@@ -21,8 +23,17 @@ module.exports = async (root, body, context) => {
       ...body,
       senderId: context.decoded.id,
     });
-    return addMessageUserDetails(message);
+
+    message = await addMessageUserDetails(message);
+
+    context.socket.emit('messages', {
+      type: 'new',
+      message,
+    });
+
+    return message;
   }
+
   return generateError({
     message: 'Missing content',
     code: 400,

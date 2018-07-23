@@ -15,6 +15,10 @@ module.exports = async (root, body, context) => {
       userId: context.decoded.id,
     });
     if (created) {
+      context.socket.emit('bucketlists', {
+        type: 'new',
+        bucketlist,
+      });
       return bucketlist;
     }
     return generateError({
