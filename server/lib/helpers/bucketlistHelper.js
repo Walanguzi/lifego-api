@@ -59,10 +59,10 @@ const findBucketlist = (id, context) => findOne('bucketlists', {
   },
 });
 
-const addCommentUserDetails = async (comment) => {
+const addCommentUserDetails = async ({ dataValues: comment }) => {
   const user = await findById('users', comment.senderId);
   return ({
-    ...comment.dataValues,
+    ...comment,
     user: user.dataValues.displayName,
     userPictureUrl: user.dataValues.pictureUrl,
   });
@@ -107,4 +107,5 @@ module.exports = {
   addUserProperties,
   addListUserProperties,
   addOtherProps,
+  addCommentUserDetails,
 };

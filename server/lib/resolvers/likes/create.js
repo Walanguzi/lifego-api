@@ -3,6 +3,7 @@ const {
   generateError,
 } = require('../../utils');
 const { findBucketlist } = require('../../helpers/bucketlistHelper');
+const { createLikeNotification } = require('../../helpers/notificationHelper');
 
 module.exports = async (root, body, context) => {
   const bucketlist = await findBucketlist(body.bucketlistId, context);
@@ -20,6 +21,8 @@ module.exports = async (root, body, context) => {
         likerId: '',
       },
     }, body);
+
+    await createLikeNotification(context, like);
 
     context.socket.emit('likes', {
       type: 'like',

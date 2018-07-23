@@ -10,12 +10,13 @@ const { like } = require('./Like/types');
 const { conversation } = require('./Conversation/types');
 const { message } = require('./Message/types');
 const bucketlistMutations = require('./Bucketlist/mutations');
+const { notification } = require('./Notification/types');
 const itemMutations = require('./Item/mutations');
 const commentMutations = require('./Comment/mutations');
 const conversationMutations = require('./Conversation/mutations');
 const likeMutations = require('./Like/mutations');
 const messageMutations = require('./Message/mutations');
-const Notification = require('./Notification');
+const notificationMutations = require('./Notification/mutations');
 const User = require('./User');
 const UserNotification = require('./UserNotification');
 
@@ -29,7 +30,7 @@ module.exports = new GraphQLSchema({
       Conversation: { type: conversation },
       Item: { type: item },
       Message: { type: message },
-      Notification: { type: Notification },
+      Notification: { type: notification },
       User: { type: User },
       UserNotification: { type: UserNotification },
     }),
@@ -43,6 +44,7 @@ module.exports = new GraphQLSchema({
       ...likeMutations,
       ...conversationMutations,
       ...messageMutations,
+      ...notificationMutations,
     }),
   }),
 });
