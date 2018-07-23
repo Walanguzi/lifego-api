@@ -90,10 +90,21 @@ const addListUserProperties = async (bucketlists) => {
   return returnBucketlists;
 };
 
+const addOtherProps = async ({
+  rows, offset, limit, count,
+}) => {
+  const bucketlists = await addListUserProperties(rows);
+
+  const nextOffset = count > (offset + limit) ? offset + limit : null;
+  const prevOffset = offset > 0 ? offset - limit : null;
+  return { bucketlists, nextOffset, prevOffset };
+};
+
 module.exports = {
   filterByPrivacy,
   getAssociationOptions,
   findBucketlist,
   addUserProperties,
   addListUserProperties,
+  addOtherProps,
 };
