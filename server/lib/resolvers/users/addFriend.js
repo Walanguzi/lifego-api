@@ -1,6 +1,7 @@
+const { generateError } = require('../../utils');
 const { findOneUser } = require('../../helpers/userHelper');
 
-const { generateError } = require('../../utils');
+const { createAddNotification } = require('../../helpers/userNotificationHelper');
 
 module.exports = async (root, body, context) => {
   const user = await findOneUser(context.decoded.id);
@@ -18,6 +19,14 @@ module.exports = async (root, body, context) => {
 
   if (friend) {
     await user.addFriend(friend);
+
+    await createAddNotification(context, friend);
+
+    context.socket.emit('followers', {
+      type: 'new',
+      user,
+      friend,
+    });
 
     return {
       message: 'Success',

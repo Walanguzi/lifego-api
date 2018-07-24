@@ -1,6 +1,5 @@
-const { findOneUser } = require('../../helpers/userHelper');
-
 const { generateError } = require('../../utils');
+const { findOneUser } = require('../../helpers/userHelper');
 
 module.exports = async (root, body, context) => {
   const user = await findOneUser(context.decoded.id);
@@ -18,6 +17,12 @@ module.exports = async (root, body, context) => {
 
   if (friend) {
     await user.removeFriend(friend);
+
+    context.socket.emit('followers', {
+      type: 'remove',
+      user,
+      friend,
+    });
 
     return {
       message: 'Success',

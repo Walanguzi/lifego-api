@@ -19,14 +19,12 @@ module.exports = async (data, context) => {
     ...notification,
     user: notificationUser.displayName,
     userPictureUrl: notificationUser.pictureUrl,
+    sourceUserId: context.decoded.id,
   };
 
   context.socket.emit('notifications', {
     type: 'new',
-    notification: {
-      ...newNotification,
-      sourceUserId: context.decoded.id,
-    },
+    notification: newNotification,
   });
 
   return newNotification;

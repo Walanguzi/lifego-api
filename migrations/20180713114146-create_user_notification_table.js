@@ -16,6 +16,9 @@ module.exports = {
     friendId: {
       type: Sequelize.STRING,
     },
+    userId: {
+      type: Sequelize.STRING,
+    },
     read: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
