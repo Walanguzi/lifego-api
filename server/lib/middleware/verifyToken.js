@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { findById } = require('../utils');
 
 const secret = process.env.SECRET_KEY;
 
@@ -7,8 +8,22 @@ module.exports = ((request, response, next) => {
 
   if (!query.includes('mutation {  explore')) {
     if (token) {
-      jwt.verify(token, secret, (error, decoded) => {
+      jwt.verify(token, secret, async (error, decoded) => {
         if (error) {
+          response.status(401);
+          response.json({
+            data: null,
+            errors: [{
+              message: 'Invalid token',
+              code: 401,
+            }],
+          });
+          return;
+        }
+
+        const user = await findById('users', decoded.id);
+
+        if (!user) {
           response.status(401);
           response.json({
             data: null,

@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
 const passwordHash = require('password-hash');
-const models = require('../../models');
 
-const { sendMail } = require('../utils');
+const {
+  sendMail,
+  getModel,
+} = require('../utils');
 const {
   findById,
   findOne,
@@ -15,7 +17,7 @@ const {
 
 const { createNotification } = require('../resolvers/notifications/create');
 
-const User = models.users;
+const User = getModel('users');
 
 const findOneUser = id => findOne('users', {
   where: { id },
@@ -56,8 +58,10 @@ const findAllUsers = where => findAll('users', {
   ],
 });
 
-const findFollowers = async (id, users) => {
+const findFollowers = async (id) => {
   const followers = [];
+
+  const users = await findAllUsers({});
 
   users.forEach((follower) => {
     follower.toJSON().friends.forEach((friend) => {
@@ -286,4 +290,5 @@ module.exports = {
   handleFriend,
   updateProfile,
   deleteAccount,
+  findFollowers,
 };

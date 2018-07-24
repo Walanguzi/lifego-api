@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         Conversation.belongsToMany(models.User, { through: 'conversation' });
         Conversation.hasMany(models.Message, {
           as: 'messages',
-          onDelete: 'cascade',
+          onDelete: 'CASCADE',
           foreignKey: {
             name: 'conversationId',
             allowNull: false,

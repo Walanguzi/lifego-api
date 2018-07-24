@@ -45,7 +45,8 @@ module.exports = (sequelize, DataTypes) => {
       associate(models) {
         User.hasMany(models.Bucketlist, {
           as: 'bucketlists',
-          onDelete: 'cascade',
+          onDelete: 'CASCADE',
+          hooks: true,
           foreignKey: {
             name: 'userId',
             allowNull: false,
@@ -53,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         User.hasMany(models.Like, {
           as: 'likes',
-          onDelete: 'cascade',
+          onDelete: 'CASCADE',
           foreignKey: {
             name: 'likerId',
             allowNull: false,
@@ -61,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         User.hasMany(models.UserNotification, {
           as: 'userNotifications',
-          onDelete: 'cascade',
+          onDelete: 'CASCADE',
           foreignKey: {
             name: 'userId',
             allowNull: false,

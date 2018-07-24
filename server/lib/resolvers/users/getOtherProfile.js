@@ -3,8 +3,8 @@ const {
   findFollowers,
 } = require('../../helpers/userHelper');
 
-module.exports = async (root, body, context) => {
-  const user = await findOneUser(context.decoded.id);
+module.exports = async (root, body) => {
+  const user = await findOneUser(body.id);
 
   user.followers = await findFollowers(body.id);
 
