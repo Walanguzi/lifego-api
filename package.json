@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "lint": "eslint server/**",
+    "test": "jest server",
+    "coverage": "jest --collectCoverageFrom=server/**.js --coverage server"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,9 @@
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.18.0",
+    "jest": "^23.4.1"
   },
   "dependencies": {
     "agenda": "^1.0.3",

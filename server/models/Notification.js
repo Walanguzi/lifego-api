@@ -18,9 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     bucketlistId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     sourceUserId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     read: {
       type: DataTypes.BOOLEAN,

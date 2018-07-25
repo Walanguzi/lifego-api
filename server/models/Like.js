@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     bucketlistId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     likerId: {
       type: DataTypes.STRING,

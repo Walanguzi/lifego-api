@@ -1,4 +1,7 @@
-const { bucketlist, bucketlists } = require('./types');
+const {
+  bucketlist,
+  bucketlists,
+} = require('./types');
 const {
   createBucketlistArgs,
   updateBucketlistArgs,

@@ -7,11 +7,11 @@ module.exports = {
     },
     senderId: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     receiverId: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     createdAt: {
       allowNull: false,

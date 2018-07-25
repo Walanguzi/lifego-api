@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     bucketlistId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   }, {
     classMethods: {
