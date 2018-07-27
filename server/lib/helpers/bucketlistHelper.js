@@ -6,30 +6,35 @@ const Item = getModel('items');
 const Comment = getModel('comments');
 const Like = getModel('likes');
 
-const filterByPrivacy = (rows, context) => rows.filter(async (bucketlist) => {
-  if (bucketlist.privacy === 'everyone') {
-    return true;
-  }
-  if (bucketlist.privacy === 'friends') {
-    const user = await findById('users', bucketlist.id, {
-      include: [
-        {
-          model: getModel('users'),
-          as: 'friends',
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt'],
-          },
-        },
-      ],
-    });
-    const friendIds = user.friends.map(friend => friend.id);
-    if (friendIds.includes(context.decoded.id)) {
-      return true;
+const filterByPrivacy = async (rows, context) => {
+  const bucketlists = [];
+  await asyncForEach(rows, async (bucketlist) => {
+    if (bucketlist.privacy === 'everyone') {
+      bucketlists.push(bucketlist);
     }
-    return false;
-  }
-  return false;
-});
+    if (bucketlist.privacy === 'friends') {
+      const user = await findById('users', bucketlist.userId, {
+        include: [
+          {
+            model: getModel('users'),
+            as: 'friends',
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt'],
+            },
+          },
+        ],
+      });
+
+      const friendIds = user.friends.map(friend => friend.id);
+
+      if (friendIds.includes(context.decoded.id)) {
+        bucketlists.push(bucketlist);
+      }
+    }
+  });
+
+  return bucketlists;
+};
 
 const getAssociationOptions = () => ({
   include: [
@@ -73,7 +78,9 @@ const addUserProperties = async (bucketlist) => {
   await asyncForEach(bucketlist.comments, async (comment) => {
     comments.push(await addCommentUserDetails(comment));
   });
+
   const user = await findById('users', bucketlist.userId);
+
   return {
     ...bucketlist.dataValues,
     comments,
@@ -85,7 +92,8 @@ const addUserProperties = async (bucketlist) => {
 const addListUserProperties = async (bucketlists) => {
   const returnBucketlists = [];
   await asyncForEach(bucketlists, async (bucketlist) => {
-    returnBucketlists.push(await addUserProperties(bucketlist));
+    const newBucketlist = await addUserProperties(bucketlist);
+    returnBucketlists.push(newBucketlist);
   });
   return returnBucketlists;
 };

@@ -21,7 +21,7 @@ module.exports = async (root, args, context) => {
     ...associationOptions,
   });
 
-  let bucketlists = filterByPrivacy(rows, context);
+  let bucketlists = await filterByPrivacy(rows, context);
 
   bucketlists = await addOtherProps({
     count,

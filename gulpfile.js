@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const nodemon = require('gulp-nodemon');
-const gulpMocha = require('gulp-mocha');
+const gulpJest = require('gulp-jest').default;
 const env = require('gulp-env');
 const istanbul = require('gulp-istanbul');
 
@@ -38,8 +38,13 @@ gulp.task('test', () => {
     },
   });
 
-  gulp.src('tests/*.js', { read: false })
-    .pipe(gulpMocha({ reporter: 'nyan', timeout: 15000, exit: true }))
+  gulp.src('**/*.spec.js', { read: false })
+    .pipe(gulpJest({
+      preprocessorIgnorePatterns: [
+        '<rootDir>/dist/', '<rootDir>/node_modules/',
+      ],
+      automock: false,
+    }))
     .pipe(istanbul.writeReports())
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
