@@ -48,7 +48,7 @@ describe('addConversationUserDetails tests', () => {
     done();
   });
 
-  test('returns conversation', async (done) => {
+  test('adds user details', async (done) => {
     const conversation = await addConversationUserDetails(conv);
 
     expect(conversation.senderDisplayName).toEqual(user.displayName);

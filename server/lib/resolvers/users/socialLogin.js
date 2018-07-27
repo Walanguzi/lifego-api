@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { validateFields } = require('../../utils/validationUtils');
-const { createRecord } = require('../../helpers/userHelper');
+const { createUser } = require('../../helpers/userHelper');
 
 const secret = process.env.SECRET_KEY;
 const expires = parseInt(process.env.EXPIRES, 10);
@@ -14,7 +14,7 @@ module.exports = (request, response) => {
   }
 
   validateFields(request, response, ['displayName'], async () => {
-    const user = await createRecord(request);
+    const user = await createUser(request);
 
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expires });
 
