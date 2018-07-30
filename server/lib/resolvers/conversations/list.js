@@ -13,5 +13,6 @@ module.exports = async (root, body, context) => {
     },
     ...associationOptions,
   });
+
   return addUserProperties(conversations);
 };

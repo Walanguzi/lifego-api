@@ -29,7 +29,7 @@ module.exports = async (root, body, context) => {
   context.socket.emit('messages', {
     type: 'delete',
     message: {
-      id: parseInt(context.params.messageId, 10),
+      id: body.id,
     },
   });
 

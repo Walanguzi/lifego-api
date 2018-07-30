@@ -7,9 +7,7 @@ module.exports = (request, response) => {
   const keys = ['displayName', 'email', 'password'];
 
   validateFields(request, response, keys, async () => {
-    request.body.password = await new Promise((resolve) => {
-      resolve(passwordHash.generate(request.body.password));
-    });
+    request.body.password = passwordHash.generate(request.body.password);
 
     request.body.username = request.body.email;
 
@@ -21,7 +19,7 @@ module.exports = (request, response) => {
       return;
     }
 
-    const message = request.body.social ? '' : `Successfully registered with username ${user.username}`;
+    const message = request.body.social ? '' : 'Successfully registered';
 
     response.status(201);
     response.json({

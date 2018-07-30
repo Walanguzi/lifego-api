@@ -14,18 +14,22 @@ module.exports = async (root, body, context) => {
       createdBy: context.decoded.displayName,
       userId: context.decoded.id,
     });
+
     if (created) {
       context.socket.emit('bucketlists', {
         type: 'new',
         bucketlist,
       });
+
       return bucketlist;
     }
+
     return generateError({
       message: 'Name already in use',
       code: 409,
     });
   }
+
   return generateError({
     message: 'Missing name',
     code: 400,

@@ -16,9 +16,9 @@ module.exports = (request, response) => {
   validateFields(request, response, ['displayName'], async () => {
     const user = await createUser(request);
 
-    const token = jwt.sign(user.toJSON(), secret, { expiresIn: expires });
+    const token = jwt.sign(user, secret, { expiresIn: expires });
 
-    response.status(201);
+    response.status(200);
     response.json({ token, message: `Welcome ${request.body.displayName}` });
   });
 };
