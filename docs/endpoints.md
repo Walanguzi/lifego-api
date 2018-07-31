@@ -26,7 +26,7 @@
     }
 
 ### Login
-**Endpoint**:  `POST: /api/login`
+**Endpoint**:  `POST: /api/auth/login`
 
 **Payload**:
 
@@ -41,7 +41,7 @@
     }
 
 ### Social login
-**Endpoint**:  `POST: /api/social_login`
+**Endpoint**:  `POST: /api/auth/social_login`
 
 **Payload**:
 
@@ -58,7 +58,7 @@
     }
 
 ### Reset Password
-**Endpoint**:  `POST: /api/reset_password`
+**Endpoint**:  `POST: /api/auth/reset_password`
 
 **Payload**:
 
@@ -71,7 +71,7 @@
     }
 
 ### Change email
-**Endpoint**:  `POST: /api/change_email`
+**Endpoint**:  `POST: /api/auth/change_email`
 
 **Payload**:
 
@@ -87,7 +87,7 @@
     }
 
 ### Change password
-**Endpoint**:  `POST: /api/change_password`
+**Endpoint**:  `POST: /api/auth/change_password`
 
 **Payload**:
 
@@ -103,7 +103,7 @@
     }
 
 ### Delete account
-**Endpoint**:  `POST: /api/delete_account`
+**Endpoint**:  `POST: /api/auth/delete_account`
 
 **Payload**:
 
