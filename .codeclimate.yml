@@ -5,3 +5,9 @@ engines:
 ratings:
    paths:
    - "server/**/*.js"
+
+exclude_paths:
+- "migrations/"
+- "server/models/"
+- "seeders/"
+- "__tests__/"
