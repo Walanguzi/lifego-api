@@ -23,7 +23,7 @@ jobs:
       EXPIRES: 2
       NODE_ENV: test
       MONGODB_URI: mongodb://127.0.0.1:27017/lifego-api
-      CC_TEST_REPORTER_ID: b2ab1002f0b119bd7179322115a0d87f0bf890dc797fe15c70fb02638690534e
+      CC_TEST_REPORTER_ID: a4b307afc5797175746677c2d39a5110acd392115cce271a2f561bc59eed77e4
     # In CircleCI 1.0 we used a pre-configured image with a large number of languages and other packages.
     # In CircleCI 2.0 you can now specify your own image, or use one of our pre-configured images.
     # The following configuration line tells CircleCI to use the specified docker image as the runtime environment for you job.
@@ -90,6 +90,7 @@ jobs:
     - run: npm run coverage
     # This is based on your 1.0 configuration file or project settings
     - run: ./cc-test-reporter after-build --exit-code $EXIT_CODE
+    - run: node_modules/.bin/coveralls db:migrate
     - run: rm -rf ./coverage
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each

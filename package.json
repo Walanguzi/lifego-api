@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/munala/lifego-api#readme",
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
