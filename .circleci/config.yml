@@ -87,7 +87,7 @@ jobs:
     # This is based on your 1.0 configuration file or project settings
     - run: ./cc-test-reporter before-build
     # This is based on your 1.0 configuration file or project settings
-    - run: npm test
+    - run: npm run coverage
     # This is based on your 1.0 configuration file or project settings
     - run: ./cc-test-reporter after-build --exit-code $EXIT_CODE
     - run: rm -rf ./coverage
