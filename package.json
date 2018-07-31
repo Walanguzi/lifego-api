@@ -32,6 +32,7 @@
     "gulp-jest": "^4.0.2",
     "jest": "^23.4.1",
     "jest-cli": "^23.4.1",
+    "sequelize-cli": "^3.2.0",
     "supertest": "^3.1.0"
   },
   "dependencies": {
@@ -55,7 +56,6 @@
     "password-hash": "^1.2.2",
     "pg": "^7.4.3",
     "sequelize": "^4.38.0",
-    "sequelize-cli": "^3.2.0",
     "socket.io": "^2.1.1",
     "uniqid": "^5.0.3"
   }
