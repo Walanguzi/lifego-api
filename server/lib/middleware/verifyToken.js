@@ -6,7 +6,7 @@ const secret = process.env.SECRET_KEY;
 module.exports = ((request, response, next) => {
   const { headers: { token }, body: { query } } = request;
 
-  if (!query.includes('mutation {  explore')) {
+  if (!query.includes('mutation { explore')) {
     if (token) {
       jwt.verify(token, secret, async (error, decoded) => {
         if (error) {

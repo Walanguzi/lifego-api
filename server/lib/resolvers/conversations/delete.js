@@ -20,6 +20,7 @@ module.exports = async (root, { id }, context) => {
       message: 'Success',
     };
   }
+
   return generateError({
     message: 'Conversation does not exist',
     code: 404,

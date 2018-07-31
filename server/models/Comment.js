@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     senderId: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     bucketlistId: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   }, {
     classMethods: {

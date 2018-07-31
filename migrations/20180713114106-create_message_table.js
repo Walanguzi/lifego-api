@@ -11,15 +11,16 @@ module.exports = {
     },
     senderId: {
       type: Sequelize.STRING,
-      allowNull: true,
-    },
-    social: {
-      type: Sequelize.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
     },
     conversationId: {
       type: Sequelize.STRING,
       allowNull: false,
+    },
+    read: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      defaultValue: false,
     },
     createdAt: {
       allowNull: false,

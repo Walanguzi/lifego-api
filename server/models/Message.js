@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     senderId: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     conversationId: {
       type: DataTypes.STRING,

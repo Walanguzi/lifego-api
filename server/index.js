@@ -38,4 +38,6 @@ module.exports = (app, server) => {
       passHeader: '\'token\': \'token-foo@bar.com\'',
     }));
   }
+
+  return app;
 };

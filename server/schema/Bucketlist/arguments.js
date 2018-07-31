@@ -17,6 +17,9 @@ const createBucketlistArgs = {
   category: {
     type: GraphQLString,
   },
+  pictureUrl: {
+    type: GraphQLString,
+  },
   dueDate: {
     type: GraphQLString,
   },

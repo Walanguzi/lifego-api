@@ -4,58 +4,35 @@ const passwordHash = require('password-hash');
 const {
   sendMail,
   getModel,
-} = require('../utils');
-const {
-  findById,
   findOne,
   findAll,
   createRecord,
   findAndCount,
   updateRecord,
-  deleteRecord,
-} = require('../utils/modelUtils');
-
-const { createNotification } = require('../resolvers/notifications/create');
+} = require('../utils');
 
 const User = getModel('users');
 
+const associationOptions = {
+  include: [
+    {
+      model: User,
+      as: 'friends',
+      attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt'],
+      },
+    },
+  ],
+};
+
 const findOneUser = id => findOne('users', {
   where: { id },
-  include: [
-    {
-      model: User,
-      as: 'friends',
-      attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt'],
-      },
-    },
-  ],
-});
-
-const findUsers = id => findAll('users', {
-  where: { id: { $ne: id } },
-  include: [
-    {
-      model: User,
-      as: 'friends',
-      attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt'],
-      },
-    },
-  ],
+  ...associationOptions,
 });
 
 const findAllUsers = where => findAll('users', {
   where,
-  include: [
-    {
-      model: User,
-      as: 'friends',
-      attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt'],
-      },
-    },
-  ],
+  ...associationOptions,
 });
 
 const findFollowers = async (id) => {
@@ -70,32 +47,8 @@ const findFollowers = async (id) => {
       }
     });
   });
+
   return followers;
-};
-
-const getUserProfile = async (response, id) => {
-  const user = await findById('users', id);
-
-  if (user) {
-    const users = await findUsers(id);
-
-    const followers = await findFollowers(id, users);
-
-    const {
-      password,
-      ...profile
-    } = user;
-
-    profile.followers = followers;
-    profile.friends = profile.friends.filter(friend => friend.id !== id);
-
-    response.status(200);
-    response.json(profile);
-    return;
-  }
-
-  response.status(401);
-  response.json({ message: 'Unauthorised' });
 };
 
 const createUser = async (request) => {
@@ -121,33 +74,34 @@ const findByEmail = email => findOne('users', {
 });
 
 const updateUserAndReturnToken = async ({
-  where, value, secret, expires,
+  data, value, secret, expires,
 }) => {
-  const { count } = await findAndCount('users', { where });
+  const { count } = await findAndCount('users', { where: data });
 
   if (count > 0) {
     return null;
   }
 
-  const [key] = Object.keys(where);
+  const [key] = Object.keys(data);
 
-  const newUser = await updateRecord('users', where, {
+  const newUser = await updateRecord('users', {
     where: { [key]: value },
-    returning: true,
-  });
+  }, data);
 
-  return jwt.sign(newUser[1][0].toJSON(), secret, { expiresIn: expires });
+  return jwt.sign(newUser, secret, { expiresIn: expires });
 };
 
 const changeEmail = async ({
   newEmail, email, secret, expires,
 }) => {
-  const where = { email: newEmail };
+  const data = { email: newEmail };
 
-  return updateUserAndReturnToken(where, email, secret, expires);
+  return updateUserAndReturnToken({
+    data, value: email, secret, expires,
+  });
 };
 
-const sendEmailChangeConfirmation = ({
+const sendEmailChangeConfirmation = async ({
   newEmail, newToken, response,
 }) => sendMail(
   'Email confirmation',
@@ -196,13 +150,12 @@ const changePassword = async ({
   email, newPassword, secret, expires,
 }) => {
   const result = await updateRecord('users', {
-    password: passwordHash.generate(newPassword),
-  }, {
     where: { email },
-    returning: true,
+  }, {
+    password: passwordHash.generate(newPassword),
   });
 
-  return jwt.sign(result[1][0].toJSON(), secret, { expiresIn: expires });
+  return jwt.sign(result, secret, { expiresIn: expires });
 };
 
 const sendResetConfirmation = ({
@@ -224,62 +177,8 @@ const sendResetConfirmation = ({
   },
 );
 
-const handleFriend = async ({
-  socket, request, user, action, friend: { displayName, id },
-}) => {
-  const friend = await findById(
-    'users',
-    action === 'addFriend' ? request.body.id : request.params.friendId,
-  );
-
-  await user[action](friend);
-
-  if (action === 'addFriend') {
-    createNotification({
-      type: 'new',
-      userId: id,
-      friendId: friend.id,
-      text: `<b>${displayName}<b> added you as a friend.`,
-    }, request);
-  } else {
-    createNotification({
-      type: 'remove',
-      user,
-      friend,
-    }, request);
-  }
-
-  socket.emit('followers', {
-    type: action === 'addFriend' ? 'new' : 'remove',
-    user,
-    friend,
-  });
-  return friend;
-};
-
-const updateProfile = async (request, { email }) => {
-  const user = await updateRecord('users', {
-    ...request.body,
-    pictureUrl: request.body.pictureUrl || null,
-  }, {
-    where: { email },
-    returning: true,
-  });
-
-  const {
-    password,
-    ...profile
-  } = user[1][0].toJSON();
-
-  return profile;
-};
-
-const deleteAccount = async id => deleteRecord('users', id);
-
 module.exports = {
   findOneUser,
-  findAllUsers,
-  getUserProfile,
   createUser,
   findByEmail,
   changeEmail,
@@ -287,8 +186,5 @@ module.exports = {
   validatePassword,
   changePassword,
   sendResetConfirmation,
-  handleFriend,
-  updateProfile,
-  deleteAccount,
   findFollowers,
 };

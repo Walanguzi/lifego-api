@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     senderId: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     receiverId: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   }, {
     classMethods: {

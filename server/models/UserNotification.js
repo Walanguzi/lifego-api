@@ -18,9 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     friendId: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     read: {
       type: DataTypes.BOOLEAN,

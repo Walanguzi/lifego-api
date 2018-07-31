@@ -27,8 +27,8 @@ const addDetails = async (userNotifications) => {
     }
   });
 
-  read = read.sort((a, b) => new Date(b.date) - new Date(a.date));
-  unread = unread.sort((a, b) => new Date(b.date) - new Date(a.date));
+  read = read.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  unread = unread.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return {
     read,

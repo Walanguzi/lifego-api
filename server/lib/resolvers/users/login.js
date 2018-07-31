@@ -11,19 +11,13 @@ module.exports = (request, response) => {
   validateFields(request, response, ['password'], async () => {
     const user = await findByEmail(request.body.email);
 
-    if (!user) {
-      response.status(404);
-      response.json({ message: 'Wrong email or password' });
-      return;
-    }
-
-    if (!passwordHash.verify(request.body.password, user.toJSON().password)) {
+    if (!user || !passwordHash.verify(request.body.password, user.password)) {
       response.status(401);
       response.json({ message: 'Wrong email or password' });
       return;
     }
 
-    const token = jwt.sign(user.toJSON(), secret, { expiresIn: expires });
+    const token = jwt.sign(user, secret, { expiresIn: expires });
 
     response.status(200);
     response.json({ token, message: 'Successfully logged in' });
