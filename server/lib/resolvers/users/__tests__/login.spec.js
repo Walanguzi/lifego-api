@@ -6,6 +6,10 @@ jest.mock('../../../helpers/userHelper', () => ({
       return {
         email,
         password: 'correct password',
+        toJSON: () => ({
+          email,
+          password: 'correct password',
+        }),
       };
     }
 
