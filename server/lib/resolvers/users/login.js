@@ -9,7 +9,8 @@ const expires = parseInt(process.env.EXPIRES, 10);
 
 module.exports = (request, response) => {
   validateFields(request, response, ['password'], async () => {
-    const user = await findByEmail(request.body.email);
+    let user = await findByEmail(request.body.email);
+    user = user.toJSON();
 
     if (!user || !passwordHash.verify(request.body.password, user.password)) {
       response.status(401);

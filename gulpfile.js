@@ -17,6 +17,28 @@ gulp.task('default', () => {
       GOOGLE_SECRET: process.env.GOOGLE_SECRET,
       SECRET_KEY: process.env.SECRET_KEY,
       MONGODB_URI: process.env.MONGODB_URI,
+      NODE_ENV: 'production',
+    },
+    ignore: ['./node_modules'],
+  }).on('restart', () => {
+    console.log('Restarting'); // eslint-disable-line no-console
+  });
+});
+
+gulp.task('dev', () => {
+  nodemon({
+    script: 'app.js',
+    ext: 'js',
+    env: {
+      PORT: 3002,
+      EXPIRES: 86400,
+      FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
+      FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+      SECRET_KEY: process.env.SECRET_KEY,
+      MONGODB_URI: process.env.MONGODB_URI,
+      NODE_ENV: 'development',
     },
     ignore: ['./node_modules'],
   }).on('restart', () => {

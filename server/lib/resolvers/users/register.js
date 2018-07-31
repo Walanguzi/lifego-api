@@ -11,13 +11,19 @@ module.exports = (request, response) => {
 
     request.body.username = request.body.email;
 
-    const user = await createUser(request);
+    let user = await createUser(request);
 
     if (!user) {
       response.status(409);
       response.json({ message: 'Email already in use' });
       return;
     }
+
+    user = user.toJSON();
+    const {
+      password, username, userId, ...rest
+    } = user;
+    user = rest;
 
     const message = request.body.social ? '' : 'Successfully registered';
 
