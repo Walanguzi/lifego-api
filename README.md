@@ -29,7 +29,7 @@ Run the following commands to run app:
 
 `$ mongod` or `$ sudo mongod` if you encounter permission issues.
 
-`$ gulp`
+`$ gulp dev`
 
 ## Testing
 Run the following commands to test app:
@@ -42,3 +42,8 @@ Run the following commands to test app:
 
 #### Generating coverage report
 `$ npm run coverage`
+
+## Api documentation
+[Click here][58286272]
+
+  [58286272]: https://github.com/munala/lifego-api/blob/master/docs/endpoints.md "Api Documentaion"
