@@ -7,7 +7,8 @@
     "lint": "eslint server/**",
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest --runInBand --forceExit --detectOpenHandles server",
-    "coverage": "NODE_ENV=test jest --runInBand --forceExit --detectOpenHandles --collectCoverageFrom=server/**.js --coverage server"
+    "coverage": "NODE_ENV=test jest --runInBand --forceExit --detectOpenHandles --collectCoverageFrom=server/**.js --coverage server",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/munala/lifego-api#readme",
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
@@ -30,6 +32,7 @@
     "gulp-jest": "^4.0.2",
     "jest": "^23.4.1",
     "jest-cli": "^23.4.1",
+    "sequelize-cli": "^3.2.0",
     "supertest": "^3.1.0"
   },
   "dependencies": {
