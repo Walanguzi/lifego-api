@@ -90,7 +90,7 @@ jobs:
     - run: npm run coverage
     # This is based on your 1.0 configuration file or project settings
     - run: ./cc-test-reporter after-build --exit-code $EXIT_CODE
-    - run: node_modules/.bin/coveralls db:migrate
+    - run: npm run coveralls
     - run: rm -rf ./coverage
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
