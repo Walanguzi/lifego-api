@@ -1,6 +1,6 @@
 # Auth endpoints
 ### Register
-**Endpoint**:  `POST: /api/register`
+**Endpoint**:  `POST: /api/auth/register`
 
 **Payload**:
 
