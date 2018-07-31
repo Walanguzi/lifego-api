@@ -19,10 +19,12 @@ module.exports = (request, response) => {
       return;
     }
 
-    user = user.toJSON();
+    user = user.dataValues || user;
+
     const {
       password, username, userId, ...rest
     } = user;
+
     user = rest;
 
     const message = request.body.social ? '' : 'Successfully registered';
