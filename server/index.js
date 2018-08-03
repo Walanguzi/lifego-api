@@ -35,7 +35,7 @@ module.exports = (app, server) => {
   if (process.env.NODE_ENV === 'development') {
     app.use('/api/graphiql', graphiqlExpress({
       endpointURL: '/api/graphql',
-      passHeader: '\'token\': \'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJjamp3cGVqdmprOXAyeXZ5IiwidXNlcm5hbWUiOiJvbGl2ZXIubXVuYWxhQGFuZGVsYS5jb20iLCJlbWFpbCI6Im9saXZlci5tdW5hbGFAYW5kZWxhLmNvbSIsInBhc3N3b3JkIjoic2hhMSQ3Y2NiZWVkYiQxJDliYmIwMjE4NmJiZTI3MTYxOWY0YTAyZTg0ZWEzYjBmZDY0ZGQ2NjEiLCJkaXNwbGF5TmFtZSI6Ik9saXZlciBNdW5hbGEiLCJwaWN0dXJlVXJsIjpudWxsLCJzb2NpYWwiOmZhbHNlLCJyZW1pbmRlcnMiOnRydWUsInByaXZhY3kiOiJldmVyeW9uZSIsImNyZWF0ZWRBdCI6IjIwMTgtMDctMzFUMTI6NDQ6NDkuMDU0WiIsInVwZGF0ZWRBdCI6IjIwMTgtMDctMzFUMTI6NDQ6NDkuMDU0WiIsInVzZXJJZCI6bnVsbCwiaWF0IjoxNTMzMDQzOTg3LCJleHAiOjE1MzMxMzAzODd9.UNxUWytqmJmndMg9M3AHIoE1PdcWUJYeHGpFxuSgDWI\'',
+      passHeader: '\'token\': \'<login and place token here>\'',
     }));
   }
 
