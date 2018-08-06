@@ -10,38 +10,77 @@ This project relies on `node^8.9`, `mongo^3.4` and `postgres^9.4` to run. Make s
 
 Run the following commands to setup:
 
-`$ git clone https://github.com/munala/lifego-api.git`
+  `git clone https://github.com/munala/lifego-api.git`
 
-`$ cd lifego-api/`
+  `cd lifego-api/`
 
-`$ createdb lifego`
+  `createdb lifego`
 
-`$ createdb lifego_test`
+  `createdb lifego_test`
 
-`$ npm install`
+  `npm install`
 
-`$ npm install -g sequelize sequelize-cli`
+  `npm install -g sequelize sequelize-cli`
 
-`$ sequelize db:migrate`
+  `sequelize db:migrate`
+
+Add the following environment variables:
+  - `EMAIL_SENDER` - Email used by app to send emails.
+  - `EMAIL_PASSWORD` - Password for the above email.
+  - `MONGODB_URI` - Mongodb uri used by the app.
+  - `NODE_ENV` - The environment in which you run the app()
+  - `FACEBOOK_CLIENT_ID` - Facebook client id used for social auth.
+  - `FACEBOOK_SECRET` - Facebook secret used for social auth.
+  - `GOOGLE_CLIENT_ID` - Google client id used for social auth.
+  - `GOOGLE_SECRET` - Google secret used for social auth.
+  - `SECRET_KEY` - Secret key used to generate auth tokens.
+  - `EXPIRES` - Expiry period for tokens in microseconds.
+  - `DB_HOST` - Host for the postgres database.
+  - `DB_PORT` - Port for the above host used to connect to postgres.
+  - `POSTGRES_DB` - Postgres database used by the app.
+
+Add the following line to your hosts file `/etc/hosts`:
+
+  `127.0.0.1 postgres`
+
+#### Using docker
+Make sure you have docker installed first. Create a file `.env` and add the variables named above.
+
+Run the following command:
+
+  `docker build -t <app name> .`
 
 ## Running
 Run the following commands to run app:
 
-`$ mongod` or `$ sudo mongod` if you encounter permission issues.
+  `mongod` or `sudo mongod` if you encounter permission issues.
 
-`$ gulp dev`
+  `gulp dev`
+
+#### Using docker-compose
+Run the following command to launch the app:
+
+  `docker-compose up`
+
+or
+
+  `docker-compose up --build` to build first before running.
+
+Run the following command to stop:
+
+  `docker-compose down`
 
 ## Testing
 Run the following commands to test app:
 
 #### Using gulp
-`$ gulp test`
+  `gulp test`
 
 #### Using npm scripts
-`$ npm test`
+  `npm test`
 
 #### Generating coverage report
-`$ npm run coverage`
+  `npm run coverage`
 
 ## Api documentation
 [Click here][58286272]

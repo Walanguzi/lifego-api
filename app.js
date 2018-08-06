@@ -4,7 +4,7 @@ const initServer = require('./server');
 
 const app = express();
 const server = http.Server(app);
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 initServer(app, server);
 
