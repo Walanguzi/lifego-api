@@ -46,9 +46,13 @@ Add the following line to your hosts file `/etc/hosts`:
 #### Using docker
 Make sure you have docker installed first. Create a file `.env` and add the variables named above.
 
-Run the following command:
+Run the following command to setup container:
 
-  `docker build -t <app name> .`
+  `docker build -t <app name>`
+
+  Run the following command to run migrations:
+
+  `docker exec -it $(docker ps | grep lifego-api_web | awk '{ print $1 }') /bin/sh -c './node_modules/.bin/sequelize db:migrate'`
 
 ## Running
 Run the following commands to run app:
