@@ -2,6 +2,7 @@ const {
   GraphQLObjectType,
   GraphQLList,
   GraphQLInt,
+  GraphQLString,
 } = require('graphql');
 const { attributeFields } = require('graphql-sequelize');
 const { bucketlists: Bucketlist } = require('../../models');
@@ -23,6 +24,12 @@ const bucketlist = new GraphQLObjectType({
     },
     likes: {
       type: new GraphQLList(like),
+    },
+    userDisplayName: {
+      type: GraphQLString,
+    },
+    userPictureUrl: {
+      type: GraphQLString,
     },
   },
 });
