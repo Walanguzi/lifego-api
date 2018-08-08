@@ -25,7 +25,7 @@ const bucketlist = new GraphQLObjectType({
     likes: {
       type: new GraphQLList(like),
     },
-    userDisplayName: {
+    user: {
       type: GraphQLString,
     },
     userPictureUrl: {

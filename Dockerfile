@@ -54,6 +54,8 @@ ENTRYPOINT ["./wait-for-postgres.sh", "postgres:5432", "--", "node", "app.js"]
 
 RUN npm i
 
+RUN npm install -g nodemon
+
 # Add application files
 ADD . /
 
@@ -61,4 +63,4 @@ ADD . /
 #Expose the port
 EXPOSE 3002
 
-CMD ["nodemon", "app.js"]
+CMD ["node", "app.js"]
