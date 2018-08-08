@@ -12,6 +12,7 @@ const filterByPrivacy = async (rows, context) => {
     if (bucketlist.privacy === 'everyone') {
       bucketlists.push(bucketlist);
     }
+
     if (bucketlist.privacy === 'friends') {
       const user = await findById('users', bucketlist.userId, {
         include: [
@@ -66,6 +67,7 @@ const findBucketlist = (id, context) => findOne('bucketlists', {
 
 const addCommentUserDetails = async ({ dataValues: comment }) => {
   const user = await findById('users', comment.senderId);
+
   return ({
     ...comment,
     user: user.dataValues.displayName,
@@ -75,6 +77,7 @@ const addCommentUserDetails = async ({ dataValues: comment }) => {
 
 const addUserProperties = async (bucketlist) => {
   const comments = [];
+
   await asyncForEach(bucketlist.comments, async (comment) => {
     comments.push(await addCommentUserDetails(comment));
   });
@@ -91,10 +94,13 @@ const addUserProperties = async (bucketlist) => {
 
 const addListUserProperties = async (bucketlists) => {
   const returnBucketlists = [];
+
   await asyncForEach(bucketlists, async (bucketlist) => {
     const newBucketlist = await addUserProperties(bucketlist);
+
     returnBucketlists.push(newBucketlist);
   });
+
   return returnBucketlists;
 };
 
@@ -105,6 +111,7 @@ const addOtherProps = async ({
 
   const nextOffset = count > (offset + limit) ? offset + limit : null;
   const prevOffset = offset > 0 ? offset - limit : null;
+
   return { bucketlists, nextOffset, prevOffset };
 };
 
