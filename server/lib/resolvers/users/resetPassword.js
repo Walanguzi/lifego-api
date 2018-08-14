@@ -22,6 +22,6 @@ module.exports = (request, response) => {
 
     const password = generatePassword();
 
-    sendResetConfirmation(email, password, response);
+    sendResetConfirmation({ email, password, response });
   });
 };

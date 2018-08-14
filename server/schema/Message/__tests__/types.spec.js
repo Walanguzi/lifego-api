@@ -18,6 +18,9 @@ describe('Message type tests', () => {
     expect(message.getFields()).toHaveProperty('senderId');
     expect(message.getFields().senderId.type).toEqual(new GraphQLNonNull(GraphQLString));
 
+    expect(message.getFields()).toHaveProperty('receiverId');
+    expect(message.getFields().receiverId.type).toEqual(GraphQLString);
+
     expect(message.getFields()).toHaveProperty('user');
     expect(message.getFields().user.type).toEqual(GraphQLString);
 

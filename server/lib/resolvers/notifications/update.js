@@ -12,9 +12,17 @@ module.exports = async (root, { id }, context) => {
       return existingNotification;
     }
 
-    const notification = await updateRecord('notifications', {
+    let { dataValues: notification } = await updateRecord('notifications', {
       where: { id },
     }, { read: true });
+
+    const notificationUser = await findById('users', notification.sourceUserId);
+
+    notification = {
+      ...notification,
+      user: notificationUser.displayName,
+      userPictureUrl: notificationUser.pictureUrl,
+    };
 
     context.socket.emit('notifications', {
       type: 'markAsRead',

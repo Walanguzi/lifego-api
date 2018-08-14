@@ -14,16 +14,18 @@ const addDetails = async (userNotifications) => {
   await asyncForEach(userNotifications, async ({ dataValues: notif }) => {
     const sourceUser = await findById('users', notif.friendId);
 
-    const newNotification = {
-      ...notif,
-      user: sourceUser.displayName,
-      userPictureUrl: sourceUser.pictureUrl,
-    };
+    if (sourceUser) {
+      const newNotification = {
+        ...notif,
+        user: sourceUser.displayName,
+        userPictureUrl: sourceUser.pictureUrl,
+      };
 
-    if (newNotification.read) {
-      read.push(newNotification);
-    } else {
-      unread.push(newNotification);
+      if (newNotification.read) {
+        read.push(newNotification);
+      } else {
+        unread.push(newNotification);
+      }
     }
   });
 

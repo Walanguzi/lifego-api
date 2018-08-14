@@ -7,7 +7,7 @@ module.exports = async (root, body, context) => {
 
   const userNotifications = await findAll('userNotifications', {
     where: {
-      userId: context.decoded.id,
+      friendId: context.decoded.id,
     },
     order: [
       ['createdAt', 'DESC'],

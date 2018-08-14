@@ -34,7 +34,9 @@ module.exports = (request, response) => {
         return;
       }
 
-      const newToken = await changeEmail(newEmail, email, secret, expires);
+      const newToken = await changeEmail({
+        newEmail, email, secret, expires,
+      });
 
       if (!newToken) {
         response.status(409);
@@ -42,7 +44,7 @@ module.exports = (request, response) => {
         return;
       }
 
-      sendEmailChangeConfirmation(newEmail, newToken, response);
+      sendEmailChangeConfirmation({ newEmail, newToken, response });
     });
   });
 };

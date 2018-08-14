@@ -1,7 +1,7 @@
 const update = require('../update');
 
 jest.mock('../../../utils', () => ({
-  updateRecord: async (modelName, options, body) => body,
+  updateRecord: async (modelName, options, body) => ({ dataValues: body }),
   generateError: ({ message, code }) => {
     const error = new Error(message);
     error.extensions = { code };
@@ -9,6 +9,10 @@ jest.mock('../../../utils', () => ({
     return error;
   },
   findById: async (modelName, id) => {
+    if (modelName === 'users') {
+      return {};
+    }
+
     if (id === 'existing userNotification') {
       return {
         id,

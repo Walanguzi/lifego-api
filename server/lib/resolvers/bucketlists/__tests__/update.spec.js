@@ -25,6 +25,7 @@ jest.mock('../../../helpers/bucketlistHelper', () => ({
 
     return null;
   },
+  addUserProperties: bucketlist => bucketlist,
 }));
 
 const socket = {

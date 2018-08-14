@@ -88,7 +88,7 @@ const updateUserAndReturnToken = async ({
     where: { [key]: value },
   }, data);
 
-  return jwt.sign(newUser, secret, { expiresIn: expires });
+  return jwt.sign(newUser.dataValues, secret, { expiresIn: expires });
 };
 
 const changeEmail = async ({
@@ -155,7 +155,7 @@ const changePassword = async ({
     password: passwordHash.generate(newPassword),
   });
 
-  return jwt.sign(result, secret, { expiresIn: expires });
+  return jwt.sign(result.dataValues, secret, { expiresIn: expires });
 };
 
 const sendResetConfirmation = ({
@@ -166,10 +166,10 @@ const sendResetConfirmation = ({
   email,
   async () => {
     await updateRecord('users', {
-      password: passwordHash.generate(password),
-    }, {
       where: { email },
       returning: true,
+    }, {
+      password: passwordHash.generate(password),
     });
 
     response.status(200);

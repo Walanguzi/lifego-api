@@ -8,6 +8,9 @@ const message = new GraphQLObjectType({
   name: 'message',
   fields: {
     ...attributes,
+    receiverId: {
+      type: GraphQLString,
+    },
     user: {
       type: GraphQLString,
     },

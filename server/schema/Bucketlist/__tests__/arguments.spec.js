@@ -10,6 +10,7 @@ const {
   getBucketlistArgs,
   deleteBucketlistArgs,
   listArgs,
+  listOtherArgs,
 } = require('../arguments');
 
 describe('Bucketlist arguments tests', () => {
@@ -60,5 +61,19 @@ describe('Bucketlist arguments tests', () => {
 
     expect(listArgs).toHaveProperty('name');
     expect(listArgs.name.type).toEqual(GraphQLString);
+  });
+
+  test('listOtherArgs types', () => {
+    expect(listOtherArgs).toHaveProperty('id');
+    expect(listOtherArgs.id.type).toEqual(new GraphQLNonNull(GraphQLString));
+
+    expect(listOtherArgs).toHaveProperty('offset');
+    expect(listOtherArgs.offset.type).toEqual(GraphQLInt);
+
+    expect(listOtherArgs).toHaveProperty('limit');
+    expect(listOtherArgs.limit.type).toEqual(GraphQLInt);
+
+    expect(listOtherArgs).toHaveProperty('name');
+    expect(listOtherArgs.name.type).toEqual(GraphQLString);
   });
 });

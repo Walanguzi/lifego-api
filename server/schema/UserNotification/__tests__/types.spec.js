@@ -30,6 +30,12 @@ describe('UserNotification type tests', () => {
 
     expect(userNotification.getFields()).toHaveProperty('text');
     expect(userNotification.getFields().text.type).toEqual(GraphQLString);
+
+    expect(userNotification.getFields()).toHaveProperty('user');
+    expect(userNotification.getFields().user.type).toEqual(GraphQLString);
+
+    expect(userNotification.getFields()).toHaveProperty('userPictureUrl');
+    expect(userNotification.getFields().userPictureUrl.type).toEqual(GraphQLString);
   });
 });
 

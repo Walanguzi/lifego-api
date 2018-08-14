@@ -10,9 +10,6 @@ const {
 
 describe('Like arguments tests', () => {
   test('likeArgs types', () => {
-    expect(likeArgs).toHaveProperty('likerId');
-    expect(likeArgs.likerId.type).toEqual(new GraphQLNonNull(GraphQLString));
-
     expect(likeArgs).toHaveProperty('bucketlistId');
     expect(likeArgs.bucketlistId.type).toEqual(new GraphQLNonNull(GraphQLString));
   });
