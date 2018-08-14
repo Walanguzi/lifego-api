@@ -46,6 +46,13 @@ const listArgs = {
   },
 };
 
+const listOtherArgs = {
+  ...listArgs,
+  id: {
+    type: new GraphQLNonNull(GraphQLString),
+  },
+};
+
 const updateBucketlistArgs = {
   ...createBucketlistArgs,
   ...getBucketlistArgs,
@@ -59,4 +66,5 @@ module.exports = {
   getBucketlistArgs,
   deleteBucketlistArgs,
   listArgs,
+  listOtherArgs,
 };

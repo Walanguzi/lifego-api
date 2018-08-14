@@ -1,12 +1,12 @@
 const {
   createRecord,
   generateError,
+  findById,
 } = require('../../utils');
-const { findBucketlist } = require('../../helpers/bucketlistHelper');
 const { createLikeNotification } = require('../../helpers/notificationHelper');
 
 module.exports = async (root, body, context) => {
-  const bucketlist = await findBucketlist(body.bucketlistId, context);
+  const bucketlist = await findById('bucketlists', body.bucketlistId);
 
   if (!bucketlist) {
     return generateError({
@@ -15,25 +15,21 @@ module.exports = async (root, body, context) => {
     });
   }
 
-  if (body.likerId) {
-    const [like] = await createRecord('likes', {
-      where: {
-        likerId: '',
-      },
-    }, body);
-
-    await createLikeNotification(context, like);
-
-    context.socket.emit('likes', {
-      type: 'like',
-      like,
-    });
-
-    return like;
-  }
-
-  return generateError({
-    message: 'Missing liker id',
-    code: 400,
+  const [like] = await createRecord('likes', {
+    where: {
+      likerId: '',
+    },
+  }, {
+    ...body,
+    likerId: context.decoded.id,
   });
+
+  await createLikeNotification(context, like);
+
+  context.socket.emit('likes', {
+    type: 'like',
+    like,
+  });
+
+  return like;
 };

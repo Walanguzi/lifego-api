@@ -1,15 +1,14 @@
 const {
   createRecord,
   generateError,
+  findById,
 } = require('../../utils');
-const {
-  findBucketlist,
-  addCommentUserDetails,
-} = require('../../helpers/bucketlistHelper');
+const { addCommentUserDetails } = require('../../helpers/bucketlistHelper');
 const { createCommentNotification } = require('../../helpers/notificationHelper');
 
 module.exports = async (root, body, context) => {
-  const bucketlist = await findBucketlist(body.bucketlistId, context);
+  const bucketlist = await findById('bucketlists', body.bucketlistId);
+
   if (!bucketlist) {
     return generateError({
       message: 'Bucketlist not found',

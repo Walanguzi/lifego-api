@@ -4,7 +4,7 @@ const {
 } = require('../../utils');
 
 module.exports = async (data, context) => {
-  const [{ dataValues: userNotification }] = await createRecord('userNotifications', {
+  const [{ dataValues: userNotification }, created] = await createRecord('userNotifications', {
     where: {
       type: data.type,
       userId: data.userId,
@@ -21,10 +21,12 @@ module.exports = async (data, context) => {
     userPictureUrl: userNotificationUser.pictureUrl,
   };
 
-  context.socket.emit('user_notifications', {
-    type: 'new',
-    alert: newNotification,
-  });
+  if (created) {
+    context.socket.emit('user_notifications', {
+      type: 'new',
+      alert: newNotification,
+    });
+  }
 
   return newNotification;
 };

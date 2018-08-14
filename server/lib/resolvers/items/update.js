@@ -32,7 +32,7 @@ module.exports = async (root, body, context) => {
     },
   });
 
-  if (existingItem) {
+  if (existingItem && existingItem.id !== item.id) {
     return generateError({
       message: 'An item with that name exists',
       code: 409,

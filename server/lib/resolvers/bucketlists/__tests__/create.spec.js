@@ -8,10 +8,13 @@ jest.mock('../../../utils', () => ({
   },
   createRecord: async (modelName, options, body) => {
     if (!body.createdBy) {
-      return [body, false];
+      return [{ dataValues: body }, false];
     }
-    return [body, true];
+    return [{ dataValues: body }, true];
   },
+  getModel: () => ({}),
+  findById: id => ({ dataValues: { id } }),
+  asyncForEach: list => list,
 }));
 
 const socket = {

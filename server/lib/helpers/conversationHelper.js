@@ -12,23 +12,29 @@ const getAssociationOptions = () => ({
     },
   ],
   order: [
-    [Message, 'id', 'ASC'],
+    [Message, 'id', 'DESC'],
   ],
 });
 
 const findConversation = async (id, context) => findOne('conversations', {
   where: {
     id,
-    senderId: context.decoded.id,
+    $or: {
+      senderId: context.decoded.id,
+      receiverId: context.decoded.id,
+    },
   },
 });
 
-const addMessageUserDetails = async (message) => {
+const addMessageUserDetails = async ({ message, conversation }) => {
   const user = await findById('users', message.senderId);
   return ({
     ...message.dataValues,
     user: user.dataValues.displayName,
     userPictureUrl: user.dataValues.pictureUrl,
+    receiverId: message.senderId === conversation.senderId
+      ? conversation.receiverId
+      : conversation.senderId,
   });
 };
 
@@ -60,7 +66,7 @@ const addUserProperties = async (conversations) => {
   const messages = [];
   await asyncForEach(conversations, async (conversation) => {
     await asyncForEach(conversation.messages, async (message) => {
-      messages.push(await addMessageUserDetails(message));
+      messages.push(await addMessageUserDetails({ message, conversation }));
     });
     const sender = await findById('users', conversation.senderId);
     const receiver = await findById('users', conversation.receiverId);

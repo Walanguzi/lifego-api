@@ -8,6 +8,7 @@ const {
   getBucketlistArgs,
   deleteBucketlistArgs,
   listArgs,
+  listOtherArgs,
 } = require('../arguments');
 const bucketlistResolvers = require('../../../lib/resolvers/bucketlists');
 const { successMessage } = require('../../Common/types');
@@ -18,6 +19,7 @@ const {
   updateBucketlist,
   list,
   listAll,
+  listOther,
   explore,
   deleteBucketlist,
 } = require('../mutations');
@@ -98,5 +100,16 @@ describe('Bucketlist mutation tests', () => {
 
     expect(explore).toHaveProperty('resolve');
     expect(explore.resolve).toEqual(bucketlistResolvers.explore);
+  });
+
+  test('listOther mutation', () => {
+    expect(listOther).toHaveProperty('type');
+    expect(listOther.type).toEqual(bucketlists);
+
+    expect(listOther).toHaveProperty('args');
+    expect(listOther.args).toEqual(listOtherArgs);
+
+    expect(listOther).toHaveProperty('resolve');
+    expect(listOther.resolve).toEqual(bucketlistResolvers.listOther);
   });
 });

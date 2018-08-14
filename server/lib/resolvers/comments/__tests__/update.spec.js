@@ -8,16 +8,16 @@ jest.mock('../../../utils', () => ({
 
     return error;
   },
-}));
-
-jest.mock('../../../helpers/bucketlistHelper', () => ({
-  findBucketlist: async (id) => {
+  findById: async (model, id) => {
     if (id === 'existing bucketlist') {
       return { id };
     }
 
     return null;
   },
+}));
+
+jest.mock('../../../helpers/bucketlistHelper', () => ({
   addCommentUserDetails: async body => body,
 }));
 

@@ -2,7 +2,10 @@ const {
   createRecord,
   generateError,
 } = require('../../utils');
-const { findConversation, addMessageUserDetails } = require('../../helpers/conversationHelper');
+const {
+  findConversation,
+  addMessageUserDetails,
+} = require('../../helpers/conversationHelper');
 
 module.exports = async (root, body, context) => {
   const conversation = await findConversation(body.conversationId, context);
@@ -21,10 +24,11 @@ module.exports = async (root, body, context) => {
       },
     }, {
       ...body,
+      read: false,
       senderId: context.decoded.id,
     });
 
-    message = await addMessageUserDetails(message);
+    message = await addMessageUserDetails({ message, conversation });
 
     context.socket.emit('messages', {
       type: 'new',

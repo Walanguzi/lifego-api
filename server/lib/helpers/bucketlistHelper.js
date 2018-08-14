@@ -8,27 +8,28 @@ const Like = getModel('likes');
 
 const filterByPrivacy = async (rows, context) => {
   const bucketlists = [];
+
   await asyncForEach(rows, async (bucketlist) => {
-    if (bucketlist.privacy === 'everyone') {
+    const user = await findById('users', bucketlist.userId, {
+      include: [
+        {
+          model: getModel('users'),
+          as: 'friends',
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
+    });
+
+    const friendIds = user.friends.map(friend => friend.id);
+
+    if (bucketlist.userId === context.decoded.id) {
       bucketlists.push(bucketlist);
     }
 
-    if (bucketlist.privacy === 'friends') {
-      const user = await findById('users', bucketlist.userId, {
-        include: [
-          {
-            model: getModel('users'),
-            as: 'friends',
-            attributes: {
-              exclude: ['password', 'createdAt', 'updatedAt'],
-            },
-          },
-        ],
-      });
-
-      const friendIds = user.friends.map(friend => friend.id);
-
-      if (friendIds.includes(context.decoded.id)) {
+    if (friendIds.includes(context.decoded.id)) {
+      if (bucketlist.privacy === 'everyone' || bucketlist.privacy === 'friends') {
         bucketlists.push(bucketlist);
       }
     }
@@ -63,6 +64,7 @@ const findBucketlist = (id, context) => findOne('bucketlists', {
     id,
     userId: context.decoded.id,
   },
+  ...getAssociationOptions(),
 });
 
 const addCommentUserDetails = async ({ dataValues: comment }) => {
@@ -82,7 +84,7 @@ const addUserProperties = async (bucketlist) => {
     comments.push(await addCommentUserDetails(comment));
   });
 
-  const user = await findById('users', bucketlist.userId);
+  const user = await findById('users', bucketlist.dataValues.userId);
 
   return {
     ...bucketlist.dataValues,

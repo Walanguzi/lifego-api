@@ -1,8 +1,10 @@
 const { createRecord, generateError } = require('../../utils');
 
+const { addUserProperties } = require('../../helpers/bucketlistHelper');
+
 module.exports = async (root, body, context) => {
   if (body.name) {
-    const [bucketlist, created] = await createRecord('bucketlists', {
+    const [returnedBucketlist, created] = await createRecord('bucketlists', {
       where: {
         name: body.name,
         userId: context.decoded.id,
@@ -16,6 +18,17 @@ module.exports = async (root, body, context) => {
     });
 
     if (created) {
+      let bucketlist = await addUserProperties({
+        ...returnedBucketlist,
+        comments: [],
+      });
+
+      bucketlist = {
+        ...bucketlist,
+        likes: [],
+        items: [],
+      };
+
       context.socket.emit('bucketlists', {
         type: 'new',
         bucketlist,

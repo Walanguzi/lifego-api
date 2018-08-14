@@ -18,14 +18,16 @@ module.exports = async (root, body, context) => {
     }, body);
 
     if (created) {
-      const conversation = await addConversationUserDetails(newConversation);
+      let conversation = await addConversationUserDetails(newConversation);
+
+      conversation = {
+        ...conversation,
+        messages: conversation.messages || [],
+      };
 
       context.socket.emit('conversations', {
         type: 'new',
-        conversation: {
-          ...conversation,
-          messages: conversation.messages || [],
-        },
+        conversation,
       });
 
       return conversation;

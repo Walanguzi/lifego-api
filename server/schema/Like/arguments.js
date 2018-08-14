@@ -4,9 +4,6 @@ const {
 } = require('graphql');
 
 const likeArgs = {
-  likerId: {
-    type: new GraphQLNonNull(GraphQLString),
-  },
   bucketlistId: {
     type: new GraphQLNonNull(GraphQLString),
   },

@@ -88,8 +88,9 @@ describe('filterByPrivacy tests', () => {
     done();
   });
 
-  test('returns bucketlists for everyone privacy setting', async (done) => {
+  test('returns empty list for strangers', async (done) => {
     const stranger = await findOne('users', { where: { email: 'test@stranger.com' } });
+
     const context = {
       decoded: {
         id: stranger.id,
@@ -97,9 +98,28 @@ describe('filterByPrivacy tests', () => {
     };
 
     const bucketlists = await findAll('bucketlists', { where: {}, ...associationOptions });
+
     const returnBucketlists = await filterByPrivacy(bucketlists, context);
 
-    expect(returnBucketlists).toHaveLength(1);
+    expect(returnBucketlists).toHaveLength(0);
+
+    done();
+  });
+
+  test('returns bucketlists for everyone privacy setting', async (done) => {
+    const friend = await findOne('users', { where: { email: 'test@friend.com' } });
+
+    const context = {
+      decoded: {
+        id: friend.id,
+      },
+    };
+
+    const bucketlists = await findAll('bucketlists', { where: {}, ...associationOptions });
+
+    const returnBucketlists = await filterByPrivacy(bucketlists, context);
+
+    expect(returnBucketlists).toHaveLength(2);
 
     done();
   });
