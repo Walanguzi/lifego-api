@@ -7,10 +7,7 @@ jest.mock('../../../utils', () => ({
     return error;
   },
   deleteRecord: async () => true,
-}));
-
-jest.mock('../../../helpers/bucketlistHelper', () => ({
-  findBucketlist: async (id) => {
+  findById: async (model, id) => {
     if (id === 'existing bucketlist') {
       return { id };
     }

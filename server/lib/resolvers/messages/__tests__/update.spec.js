@@ -18,7 +18,7 @@ jest.mock('../../../helpers/conversationHelper', () => ({
 
     return null;
   },
-  addMessageUserDetails: async body => body,
+  addMessageUserDetails: async ({ message }) => message,
 }));
 
 jest.mock('../../../helpers/messageHelper', () => ({

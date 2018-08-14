@@ -14,7 +14,9 @@ module.exports = (request, response) => {
     const { oldPassword, newPassword, confirm } = request.body;
 
     jwt.verify(token, secret, async (error, decoded) => {
-      const valid = validatePassword(error, decoded, oldPassword, newPassword, confirm, response);
+      const valid = validatePassword({
+        error, decoded, oldPassword, newPassword, confirm, response,
+      });
 
       if (newPassword !== confirm) {
         response.status(400);
@@ -23,7 +25,9 @@ module.exports = (request, response) => {
       }
 
       if (valid) {
-        const newToken = await changePassword(decoded.email, newPassword, secret, expires);
+        const newToken = await changePassword({
+          email: decoded.email, newPassword, secret, expires,
+        });
 
         response.status(200);
         response.json({ message: 'Password changed', token: newToken });

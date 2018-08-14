@@ -31,7 +31,7 @@ module.exports = async (root, body, context) => {
     where: { id: body.id },
   }, body);
 
-  newMessage = await addMessageUserDetails(newMessage);
+  newMessage = await addMessageUserDetails({ message: newMessage, conversation });
 
   context.socket.emit('messages', {
     type: message.read === newMessage.read ? 'update' : 'markAsRead',

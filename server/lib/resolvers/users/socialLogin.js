@@ -14,9 +14,11 @@ module.exports = (request, response) => {
   }
 
   validateFields(request, response, ['displayName'], async () => {
+    request.body.username = request.body.email;
+
     const user = await createUser(request);
 
-    const token = jwt.sign(user, secret, { expiresIn: expires });
+    const token = jwt.sign(user.dataValues, secret, { expiresIn: expires });
 
     response.status(200);
     response.json({ token, message: `Welcome ${request.body.displayName}` });

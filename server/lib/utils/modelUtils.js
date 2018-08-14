@@ -26,6 +26,7 @@ const updateRecord = async (model, options, data) => {
     plain: true,
     returning: true,
   });
+
   return newRecord;
 };
 

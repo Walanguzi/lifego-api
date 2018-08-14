@@ -1,12 +1,12 @@
 const {
   generateError,
   deleteRecord,
+  findById,
 } = require('../../utils');
 const { findComment } = require('../../helpers/commentHelper');
-const { findBucketlist } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body, context) => {
-  const bucketlist = await findBucketlist(body.bucketlistId, context);
+  const bucketlist = await findById('bucketlists', body.bucketlistId);
 
   if (!bucketlist) {
     return generateError({

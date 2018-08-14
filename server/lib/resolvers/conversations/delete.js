@@ -6,6 +6,7 @@ const { findConversation } = require('../../helpers/conversationHelper');
 
 module.exports = async (root, { id }, context) => {
   const conversation = await findConversation(id, context);
+
   if (conversation) {
     await deleteRecord('conversations', id);
 

@@ -8,12 +8,14 @@ const {
   getBucketlistArgs,
   deleteBucketlistArgs,
   listArgs,
+  listOtherArgs,
 } = require('./arguments');
 const {
   list,
   getBucketlist,
   deleteBucketlist,
   listAll,
+  listOther,
   explore,
   updateBucketlist,
   createBucketlist,
@@ -45,6 +47,11 @@ module.exports = {
     type: bucketlists,
     args: listArgs,
     resolve: listAll,
+  },
+  listOther: {
+    type: bucketlists,
+    args: listOtherArgs,
+    resolve: listOther,
   },
   explore: {
     type: bucketlists,

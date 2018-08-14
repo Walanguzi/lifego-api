@@ -1,7 +1,7 @@
 const changeEmail = require('../changeEmail');
 
 jest.mock('../../../helpers/userHelper', () => ({
-  changeEmail: async (newEmail) => {
+  changeEmail: async ({ newEmail }) => {
     if (newEmail === 'existing@email.com') {
       return null;
     }

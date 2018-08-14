@@ -12,17 +12,13 @@ jest.mock('../../../utils', () => ({
     }
     return [body, true];
   },
-}));
-
-jest.mock('../../../helpers/bucketlistHelper', () => ({
-  findBucketlist: async (id) => {
+  findById: async (model, id) => {
     if (id === 'existing id') {
       return { id };
     }
 
     return null;
   },
-  addLikeUserDetails: async body => body,
 }));
 
 jest.mock('../../../helpers/notificationHelper', () => ({
@@ -50,7 +46,6 @@ const context = {
 };
 
 const body = {
-  likerId: 'test',
   bucketlistId: 'existing id',
 };
 
@@ -59,25 +54,11 @@ const wrongBody = {
   bucketlistId: 'wrong id',
 };
 
-const emptyBody = {
-  likerId: '',
-  bucketlistId: 'existing id',
-};
-
 describe('create tests', () => {
-  test('creates successfully', async (done) => {
+  test('likes successfully', async (done) => {
     const like = await create(null, body, context);
 
-    expect(like.likerId).toEqual(body.likerId);
-
-    done();
-  });
-
-  test('returns error when likerId is not provided', async (done) => {
-    const error = await create(null, emptyBody, context);
-
-    expect(error.message).toEqual('Missing liker id');
-    expect(error.extensions.code).toEqual(400);
+    expect(like.likerId).toEqual(context.decoded.id);
 
     done();
   });
