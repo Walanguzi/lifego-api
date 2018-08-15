@@ -6,6 +6,7 @@ const {
 const {
   findBucketlist,
   addUserProperties,
+  handleDueDate,
 } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body, context) => {
@@ -32,9 +33,11 @@ module.exports = async (root, body, context) => {
     });
   }
 
+  const data = await handleDueDate({ body, context, bucketlist });
+
   const newBucketlist = await updateRecord('bucketlists', {
     where: { id: body.id },
-  }, body);
+  }, data);
 
   let returnedBucketlist = await addUserProperties({
     ...newBucketlist,

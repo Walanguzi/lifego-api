@@ -15,6 +15,13 @@ jest.mock('../../../utils', () => ({
 
     return error;
   },
+  findById: async (modelName, id) => {
+    if (id === 'existing bucketlist') {
+      return { id, reminders: true };
+    }
+
+    return false;
+  },
 }));
 
 jest.mock('../../../helpers/bucketlistHelper', () => ({
@@ -26,6 +33,7 @@ jest.mock('../../../helpers/bucketlistHelper', () => ({
     return null;
   },
   addUserProperties: bucketlist => bucketlist,
+  handleDueDate: async ({ body }) => body,
 }));
 
 const socket = {
@@ -34,6 +42,7 @@ const socket = {
 
 const decoded = {
   id: 'dfsfsdx',
+  reminders: true,
 };
 
 const context = {
@@ -46,6 +55,7 @@ describe('update tests', () => {
     const body = {
       id: 'existing bucketlist',
       name: 'new name',
+      dueDate: '2018-08-15 20:18:00+03',
     };
 
     const bucketlist = await update(null, body, context);

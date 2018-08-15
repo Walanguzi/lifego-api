@@ -1,12 +1,15 @@
 const {
   deleteRecord,
   generateError,
+  cancelSchedule,
+  findById,
 } = require('../../utils');
 
 const { findBucketlist } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, { id }, context) => {
   const bucketlist = await findBucketlist(id, context);
+
   if (!bucketlist) {
     return generateError({
       message: 'Bucketlist not found',
@@ -23,6 +26,12 @@ module.exports = async (root, { id }, context) => {
       userId: context.decoded.id,
     },
   });
+
+  const { reminders } = await findById('users', context.decoded.id, {});
+
+  if (reminders && bucketlist.dueDate) {
+    await cancelSchedule(bucketlist.dataValues.jobId);
+  }
 
   return {
     message: 'success',
