@@ -1,5 +1,11 @@
 const {
-  findById, getModel, findOne, asyncForEach,
+  findById,
+  getModel,
+  findOne,
+  asyncForEach,
+  updateSchedule,
+  cancelSchedule,
+  scheduleEmail,
 } = require('../utils');
 
 const Item = getModel('items');
@@ -117,6 +123,43 @@ const addOtherProps = async ({
   return { bucketlists, nextOffset, prevOffset };
 };
 
+const handleDueDate = async ({ body, context, bucketlist }) => {
+  let data = body;
+  const { reminders } = await findById('users', context.decoded.id, {});
+
+  if (reminders && body.dueDate !== bucketlist.dataValues.dueDate) {
+    if (bucketlist.dataValues.dueDate) {
+      if (body.dueDate !== null) {
+        await updateSchedule({
+          bucketlist: {
+            name: bucketlist.dataValues.name,
+            jobId: bucketlist.dataValues.jobId,
+            dueDate: body.dueDate,
+          },
+          context,
+        });
+      } else {
+        await cancelSchedule(bucketlist.dataValues.jobId);
+      }
+    } else {
+      const { data: { id: jobId } } = await scheduleEmail({
+        bucketlist: {
+          name: bucketlist.dataValues.name,
+          dueDate: body.dueDate,
+        },
+        context,
+      });
+
+      data = {
+        ...data,
+        jobId,
+      };
+    }
+  }
+
+  return data;
+};
+
 module.exports = {
   filterByPrivacy,
   getAssociationOptions,
@@ -125,4 +168,5 @@ module.exports = {
   addListUserProperties,
   addOtherProps,
   addCommentUserDetails,
+  handleDueDate,
 };

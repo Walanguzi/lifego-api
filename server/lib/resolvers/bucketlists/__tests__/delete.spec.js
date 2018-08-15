@@ -7,6 +7,13 @@ jest.mock('../../../utils', () => ({
     return error;
   },
   deleteRecord: async () => true,
+  findById: async (modelName, id) => {
+    if (id === 'existing id') {
+      return { id, reminders: true };
+    }
+
+    return false;
+  },
 }));
 
 jest.mock('../../../helpers/bucketlistHelper', () => ({
@@ -34,7 +41,10 @@ const context = {
 
 describe('deleteBucketlist tests', () => {
   test('deleteBucketlists successfully', async (done) => {
-    const response = await deleteBucketlist(null, { id: 'existing bucketlist' }, context);
+    const response = await deleteBucketlist(null, {
+      id: 'existing bucketlist',
+      dueDate: '2018-08-15 20:18:00+03',
+    }, context);
 
     expect(response.message).toEqual('success');
 

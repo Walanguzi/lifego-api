@@ -7,6 +7,14 @@ jest.mock('../../../utils', () => ({
     error.extensions = { code };
     return error;
   },
+  getModel: () => ({}),
+  findById: async (modelName, id) => {
+    if (id === 'existing id') {
+      return { id };
+    }
+
+    return false;
+  },
 }));
 
 describe('updateProfile tests', () => {
