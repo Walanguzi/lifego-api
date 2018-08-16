@@ -38,6 +38,7 @@ Add the following environment variables:
   - `DB_HOST` - Host for the postgres database.
   - `DB_PORT` - Port for the above host used to connect to postgres.
   - `POSTGRES_DB` - Postgres database used by the app.
+  - `EMAIL_SCHEDULER_TOKEN` - Token used for scheduling emails.
 
 Add the following line to your hosts file `/etc/hosts`:
 
