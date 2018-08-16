@@ -5,7 +5,7 @@ const instance = axios.create();
 
 instance.defaults.headers.common['Content-Type'] = 'application/json';
 instance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-instance.defaults.headers.common.token = process.env.AUTH_TOKEN;
+instance.defaults.headers.common.token = process.env.EMAIL_SCHEDULER_TOKEN;
 
 const url = process.env.EMAIL_SCHEDULER_URL;
 
