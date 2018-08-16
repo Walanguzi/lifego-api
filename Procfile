@@ -1,2 +1,2 @@
-release: sequelize db:migrate && node restore.js
+release: sequelize db:migrate
 web: node app.js
