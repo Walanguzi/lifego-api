@@ -12,7 +12,7 @@ const addDetails = async (userNotifications) => {
   let read = [];
   let unread = [];
   await asyncForEach(userNotifications, async ({ dataValues: notif }) => {
-    const sourceUser = await findById('users', notif.friendId);
+    const sourceUser = await findById('users', notif.userId);
 
     if (sourceUser) {
       const newNotification = {
