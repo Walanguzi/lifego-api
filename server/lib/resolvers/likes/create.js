@@ -28,7 +28,10 @@ module.exports = async (root, body, context) => {
 
   context.socket.emit('likes', {
     type: 'like',
-    like,
+    like: {
+      ...like,
+      user: context.decoded.displayName,
+    },
   });
 
   return like;
