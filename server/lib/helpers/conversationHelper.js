@@ -12,7 +12,8 @@ const getAssociationOptions = () => ({
     },
   ],
   order: [
-    [Message, 'id', 'DESC'],
+    ['createdAt', 'DESC'],
+    [Message, 'createdAt', 'DESC'],
   ],
 });
 
