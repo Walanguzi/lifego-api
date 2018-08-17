@@ -16,7 +16,7 @@ module.exports = async (root, { id }, context) => {
       where: { id },
     }, { read: true });
 
-    const notificationUser = await findById('users', notification.sourceUserId);
+    const { dataValues: notificationUser } = await findById('users', notification.sourceUserId);
 
     notification = {
       ...notification,
