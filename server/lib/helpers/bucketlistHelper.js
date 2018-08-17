@@ -28,14 +28,14 @@ const filterByPrivacy = async (rows, context) => {
       ],
     });
 
-    const friendIds = user.friends.map(friend => friend.id);
-
     if (bucketlist.userId === context.decoded.id) {
       bucketlists.push(bucketlist);
     }
 
-    if (friendIds.includes(context.decoded.id)) {
-      if (bucketlist.privacy === 'everyone' || bucketlist.privacy === 'friends') {
+    if (user) {
+      const friendIds = user.friends.map(friend => friend.id);
+
+      if (friendIds.includes(context.decoded.id) && (bucketlist.privacy === 'everyone' || bucketlist.privacy === 'friends')) {
         bucketlists.push(bucketlist);
       }
     }

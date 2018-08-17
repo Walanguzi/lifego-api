@@ -12,11 +12,11 @@ module.exports = async (root, { id }, context) => {
       return existingNotification;
     }
 
-    let notification = await updateRecord('notifications', {
+    let { dataValues: notification } = await updateRecord('notifications', {
       where: { id },
     }, { read: true });
 
-    const notificationUser = await findById('users', notification.sourceUserId);
+    const { dataValues: notificationUser } = await findById('users', notification.sourceUserId);
 
     notification = {
       ...notification,

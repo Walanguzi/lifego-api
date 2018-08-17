@@ -8,9 +8,9 @@ jest.mock('../../../utils', () => ({
   },
   createRecord: async (modelName, options, body) => {
     if (!body.createdBy) {
-      return [body, false];
+      return [{ dataValues: body }, false];
     }
-    return [body, true];
+    return [{ dataValues: body }, true];
   },
   findById: async (model, id) => {
     if (id === 'existing id') {

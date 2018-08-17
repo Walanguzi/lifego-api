@@ -10,6 +10,7 @@ const users = getModel('users');
 const UserNotification = getModel('userNotifications');
 
 let user;
+let friend;
 
 describe('addDetails tests', () => {
   beforeEach(async (done) => {
@@ -39,7 +40,7 @@ describe('addDetails tests', () => {
 
     [user] = await createRecord('users', { where: userData }, userData);
 
-    const [friend] = await createRecord('users', { where: friendData }, friendData);
+    [friend] = await createRecord('users', { where: friendData }, friendData);
 
     const data = {
       type: 'new',
@@ -100,7 +101,7 @@ describe('addDetails tests', () => {
 
     const [userNotification] = unread.concat(read);
 
-    expect(userNotification.user).toEqual(user.displayName);
+    expect(userNotification.user).toEqual(friend.displayName);
     expect(userNotification.friendId).toEqual(user.id);
 
     done();
