@@ -15,7 +15,7 @@ module.exports = async (root, body, context) => {
     });
   }
 
-  const [like] = await createRecord('likes', {
+  const [{ dataValues: like }] = await createRecord('likes', {
     where: {
       likerId: '',
     },
