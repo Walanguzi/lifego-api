@@ -1,7 +1,7 @@
 const update = require('../update');
 
 jest.mock('../../../utils', () => ({
-  updateRecord: async (modelName, options, body) => ({ dataValues: body }),
+  updateRecord: async (modelName, options, body) => (body),
   generateError: ({ message, code }) => {
     const error = new Error(message);
     error.extensions = { code };
