@@ -15,7 +15,7 @@ module.exports = async (root, args) => {
     offset,
     limit,
     where: {
-      name: { [iLike]: `%${name || ''}%` },
+      name: { [iLike]: name ? fn('lower', `${name.toLowerCase()}%`) : '' },
       privacy: 'everyone',
     },
     ...associationOptions,
