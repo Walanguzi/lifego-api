@@ -1,4 +1,4 @@
-const { Op: { iLike }, fn } = require('sequelize');
+const { fn } = require('sequelize');
 const { findAndCount } = require('../../utils');
 const {
   getAssociationOptions,
@@ -15,7 +15,7 @@ module.exports = async (root, args) => {
     offset,
     limit,
     where: {
-      name: { [iLike]: name ? fn('lower', `${name.toLowerCase()}%`) : '' },
+      name: { $ilike: name ? fn('lower', `${name.toLowerCase()}%`) : '' },
       privacy: 'everyone',
     },
     ...associationOptions,
