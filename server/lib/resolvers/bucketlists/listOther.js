@@ -1,4 +1,3 @@
-const { Op: { iLike } } = require('sequelize');
 const { findAndCount } = require('../../utils');
 const {
   getAssociationOptions,
@@ -18,7 +17,7 @@ module.exports = async (root, args) => {
     offset,
     limit,
     where: {
-      name: { [iLike]: `%${name || ''}%` },
+      name: { $ilike: `%${name ? name.toLowerCase() : ''}%` },
       userId: id,
     },
     ...associationOptions,
