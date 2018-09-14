@@ -56,7 +56,7 @@
     "passport-google-oauth": "^1.0.0",
     "password-hash": "^1.2.2",
     "pg": "^7.4.3",
-    "sequelize": "^4.38.0",
+    "sequelize": "^4.38.1",
     "socket.io": "^2.1.1",
     "uniqid": "^5.0.3"
   }
