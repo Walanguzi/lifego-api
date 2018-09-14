@@ -11,7 +11,7 @@ const agent = supertest.agent(testApp);
 describe('GraphQL integration tests', () => {
   test('Should query successfully', (done) => {
     const body = {
-      query: 'mutation { explore { bucketlists {name} } }',
+      query: 'mutation { explore (name: "") { bucketlists {name} } }',
     };
 
     agent.post('/api/graphql')
