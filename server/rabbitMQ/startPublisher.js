@@ -2,11 +2,11 @@
 const closeOnError = require('./closeOnError');
 const publish = require('./publish');
 
-module.exports = async (amqpConn) => {
+module.exports = ({ amqpConn, callback }) => {
   const offlinePubQueue = [];
   let publishChannel;
 
-  await amqpConn.createConfirmChannel((err, channel) => {
+  amqpConn.createConfirmChannel((err, channel) => {
     if (closeOnError({ amqpConn, error: err })) return;
 
     publishChannel = channel;
@@ -19,11 +19,7 @@ module.exports = async (amqpConn) => {
       console.log('[AMQP] channel closed');
     });
 
-    while (true) {
-      const message = offlinePubQueue.shift();
-
-      if (!message) break;
-
+    offlinePubQueue.forEach((message) => {
       publish({
         exchange: message[0],
         routingKey: message[1],
@@ -31,13 +27,13 @@ module.exports = async (amqpConn) => {
         publishChannel,
         offlinePubQueue,
       });
-    }
+    });
+
+    callback({
+      publishChannel,
+      offlinePubQueue,
+    });
   });
 
   console.log('Publisher is started');
-
-  return {
-    publishChannel,
-    offlinePubQueue,
-  };
 };

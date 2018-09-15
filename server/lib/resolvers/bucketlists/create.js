@@ -9,14 +9,7 @@ const { addUserProperties } = require('../../helpers/bucketlistHelper');
 
 module.exports = async (root, body, context) => {
   if (body.name) {
-    let jobId;
-
     const { reminders } = await findById('users', context.decoded.id, {});
-
-    if (body.dueDate && reminders === true) {
-      const { data: { id } } = await scheduleEmail({ bucketlist: body, context });
-      jobId = id;
-    }
 
     const [returnedBucketlist, created] = await createRecord('bucketlists', {
       where: {
@@ -26,7 +19,6 @@ module.exports = async (root, body, context) => {
     },
     {
       ...body,
-      jobId,
       privacy: body.privacy || context.decoded.privacy || 'friends',
       createdBy: context.decoded.displayName,
       userId: context.decoded.id,
@@ -43,6 +35,10 @@ module.exports = async (root, body, context) => {
         likes: [],
         items: [],
       };
+
+      if (body.dueDate && reminders === true) {
+        await scheduleEmail({ bucketlist, context });
+      }
 
       context.socket.emit('bucketlists', {
         type: 'new',

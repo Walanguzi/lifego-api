@@ -3,16 +3,18 @@ const amqp = require('amqplib/callback_api');
 const startPublisher = require('./startPublisher');
 const startWorker = require('./startWorker');
 
-const whenConnected = async (amqpConn) => {
-  const publishData = await startPublisher(amqpConn);
-
-  await startWorker(amqpConn);
-
-  return publishData;
+const whenConnected = ({ amqpConn, callback }) => {
+  startPublisher({
+    amqpConn,
+    callback: (publishData) => {
+      startWorker(amqpConn);
+      callback(publishData);
+    },
+  });
 };
 
-module.exports = async (callback) => {
-  amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, async (err, amqpConn) => {
+module.exports = (callback) => {
+  amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, amqpConn) => {
     if (err) {
       console.error('[AMQP]', err.message);
     }
@@ -25,8 +27,6 @@ module.exports = async (callback) => {
 
     console.log('[AMQP] connected');
 
-    const publishData = await whenConnected(amqpConn);
-
-    callback(publishData);
+    whenConnected({ amqpConn, callback });
   });
 };

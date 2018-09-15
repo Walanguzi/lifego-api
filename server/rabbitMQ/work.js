@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
-module.exports = ({ message, callback }) => {
-  // TODO: Do something with message
-  console.log('Message receiverd:', message);
+const { updateJobId } = require('../lib/helpers/bucketlistHelper');
+
+module.exports = async ({ message, callback }) => {
+  await updateJobId(JSON.parse(message.content));
 
   callback(true);
 };
