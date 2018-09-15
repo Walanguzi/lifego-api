@@ -1,13 +1,5 @@
 const nodemailer = require('nodemailer');
-const axios = require('axios');
-
-const instance = axios.create();
-
-instance.defaults.headers.common['Content-Type'] = 'application/json';
-instance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-instance.defaults.headers.common.token = process.env.EMAIL_SCHEDULER_TOKEN;
-
-const url = process.env.EMAIL_SCHEDULER_URL;
+const publish = require('../../rabbitMQ/publish');
 
 const sendMail = async (subject, text, to, callback) => {
   const transporter = nodemailer.createTransport({
@@ -44,15 +36,41 @@ const sendMail = async (subject, text, to, callback) => {
 const generateEmailData = ({ bucketlist, context }) => ({
   to: context.decoded.email,
   date: bucketlist.dueDate,
+  bucketlistId: bucketlist.id,
+  jobId: bucketlist.jobId,
   subject: `Deadline for '${bucketlist.name}'`,
   body: `Dear ${context.decoded.displayName}, you have 24 hours to finish <b>${bucketlist.name}</b>.`,
 });
 
-const scheduleEmail = async ({ bucketlist, context }) => instance.post(`${url}schedule`, generateEmailData({ bucketlist, context }));
+const handleSchedule = async ({ bucketlist, context, type }) => {
+  const data = generateEmailData({ bucketlist, context });
 
-const updateSchedule = async ({ bucketlist, context }) => instance.put(`${url}update/${bucketlist.jobId}`, generateEmailData({ bucketlist, context }));
+  publish({
+    ...context.publishData,
+    exchange: '',
+    routingKey: 'email_queue',
+    content: Buffer.from(JSON.stringify({
+      data,
+      type,
+    })),
+  });
+};
 
-const cancelSchedule = async id => instance.delete(`${url}cancel/${id}`);
+const scheduleEmail = async ({ bucketlist, context }) => handleSchedule({ bucketlist, context, type: 'new' });
+
+const updateSchedule = async ({ bucketlist, context }) => handleSchedule({ bucketlist, context, type: 'update' });
+
+const cancelSchedule = async ({ jobId, context }) => {
+  publish({
+    ...context.publishData,
+    exchange: '',
+    routingKey: 'email_queue',
+    content: Buffer.from(JSON.stringify({
+      data: { jobId },
+      type: 'cancel',
+    })),
+  });
+};
 
 module.exports = {
   sendMail,
