@@ -30,7 +30,10 @@ module.exports = async (root, { id }, context) => {
   const { reminders } = await findById('users', context.decoded.id, {});
 
   if (reminders && bucketlist.dueDate) {
-    await cancelSchedule(bucketlist.dataValues.jobId);
+    await cancelSchedule({
+      id: bucketlist.dataValues.jobId,
+      context,
+    });
   }
 
   return {

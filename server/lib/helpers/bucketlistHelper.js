@@ -6,6 +6,7 @@ const {
   updateSchedule,
   cancelSchedule,
   scheduleEmail,
+  updateRecord,
 } = require('../utils');
 
 const Item = getModel('items');
@@ -124,7 +125,8 @@ const addOtherProps = async ({
 };
 
 const handleDueDate = async ({ body, context, bucketlist }) => {
-  let data = body;
+  const data = body;
+
   const { reminders } = await findById('users', context.decoded.id, {});
 
   if (reminders && body.dueDate !== bucketlist.dataValues.dueDate) {
@@ -133,32 +135,36 @@ const handleDueDate = async ({ body, context, bucketlist }) => {
         await updateSchedule({
           bucketlist: {
             name: bucketlist.dataValues.name,
+            id: bucketlist.id,
             jobId: bucketlist.dataValues.jobId,
             dueDate: body.dueDate,
           },
           context,
         });
       } else {
-        await cancelSchedule(bucketlist.dataValues.jobId);
+        await cancelSchedule({
+          jobId: bucketlist.dataValues.jobId,
+          context,
+        });
       }
     } else {
-      const { data: { id: jobId } } = await scheduleEmail({
+      await scheduleEmail({
         bucketlist: {
           name: bucketlist.dataValues.name,
+          id: bucketlist.id,
           dueDate: body.dueDate,
         },
         context,
       });
-
-      data = {
-        ...data,
-        jobId,
-      };
     }
   }
 
   return data;
 };
+
+const updateJobId = async ({ bucketlistId, jobId }) => updateRecord('bucketlists', {
+  where: { id: bucketlistId },
+}, { jobId });
 
 module.exports = {
   filterByPrivacy,
@@ -169,4 +175,5 @@ module.exports = {
   addOtherProps,
   addCommentUserDetails,
   handleDueDate,
+  updateJobId,
 };
