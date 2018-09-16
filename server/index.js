@@ -21,6 +21,10 @@ module.exports = (app, server) => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+  
+  app.get('/monitor', (req, res) => {
+    res.send('App is running')
+  })
 
   app.use(logResponse);
   app.use('/api/auth', authRoute());
