@@ -10,6 +10,7 @@ describe('server tests', () => {
     const app = {
       use: jest.fn(),
       get: jest.fn(),
+      set: jest.fn(),
     };
 
     server(app, testServer);
