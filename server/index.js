@@ -52,7 +52,7 @@ module.exports = (app, server) => {
           ...errorResponse,
           request: {
             headers: req.rawHeaders.filter((header, i) => {
-              if (header === 'token' || (i > 0 && req.rawHeaders[i - 1] === 'token')) {
+              if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(i > 0 && req.rawHeaders[i - 1] === 'token')) {
                 return false;
               }
               return true;
