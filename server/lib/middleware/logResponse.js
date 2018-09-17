@@ -7,7 +7,7 @@ module.exports = mung.json(({ token, password, ...rest }, req, res) => {
 
   req.app.get('logger').log('info', JSON.stringify({
     request: req.rawHeaders.filter((header, i) => {
-      if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(i > 0 && req.rawHeaders[i - 1] === 'token')) {
+      if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1]])) {
         return false;
       }
       return true;
