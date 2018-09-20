@@ -1,3 +1,4 @@
+require('express-async-errors');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
@@ -21,6 +22,10 @@ module.exports = (app, server) => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+
+  app.get('/monitor', (req, res) => {
+    res.send('App is running');
+  });
 
   app.use(logResponse);
   app.use('/api/auth', authRoute());
@@ -52,7 +57,7 @@ module.exports = (app, server) => {
           ...errorResponse,
           request: {
             headers: req.rawHeaders.filter((header, i) => {
-              if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(i > 0 && req.rawHeaders[i - 1] === 'token')) {
+              if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) {
                 return false;
               }
               return true;
