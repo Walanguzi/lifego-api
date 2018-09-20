@@ -2,38 +2,40 @@
 const closeOnError = require('./closeOnError');
 const publish = require('./publish');
 
-module.exports = ({ amqpConn, callback }) => {
+module.exports = async ({ amqpConn }) => {
   const offlinePubQueue = [];
   let publishChannel;
 
-  amqpConn.createConfirmChannel((err, channel) => {
-    if (closeOnError({ amqpConn, error: err })) return;
+  const createChannel = new Promise((resolve) => {
+    amqpConn.createConfirmChannel((err, channel) => {
+      if (closeOnError({ amqpConn, error: err })) return;
 
-    publishChannel = channel;
+      publishChannel = channel;
 
-    publishChannel.on('error', (error) => {
-      console.error('[AMQP] channel error', error.message);
-    });
+      publishChannel.on('error', (error) => {
+        console.error('[AMQP] channel error', error.message);
+      });
 
-    publishChannel.on('close', () => {
-      console.log('[AMQP] channel closed');
-    });
+      publishChannel.on('close', () => {
+        console.log('[AMQP] channel closed');
+      });
 
-    offlinePubQueue.forEach((message) => {
-      publish({
-        exchange: message[0],
-        routingKey: message[1],
-        content: message[2],
+      offlinePubQueue.forEach((message) => {
+        publish({
+          exchange: message[0],
+          routingKey: message[1],
+          content: message[2],
+          publishChannel,
+          offlinePubQueue,
+        });
+      });
+
+      resolve({
         publishChannel,
         offlinePubQueue,
       });
     });
-
-    callback({
-      publishChannel,
-      offlinePubQueue,
-    });
   });
 
-  console.log('Publisher is started');
+  return createChannel;
 };

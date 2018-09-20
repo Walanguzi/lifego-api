@@ -1,12 +1,13 @@
 const express = require('express');
 const http = require('http');
-const initServer = require('./server');
 
 const app = express();
-const server = http.Server(app);
-const port = process.env.PORT || 3002;
 
-initServer(app, server);
+const server = http.Server(app);
+
+require('./server')(app, server);
+
+const port = process.env.PORT || 3002;
 
 server.listen(port, () => {
   console.log(`Running on PORT: ${port}`); // eslint-disable-line no-console

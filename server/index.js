@@ -1,83 +1,28 @@
 require('express-async-errors');
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 const cors = require('cors');
 
-const authRoute = require('./routes/authRoutes');
+const routes = require('./routes');
 const oauth = require('./oauth');
 const rabbit = require('./rabbitMQ');
-const winston = require('./winston');
-const schema = require('../server/schema');
-const verifyToken = require('./lib/middleware/verifyToken');
-const logResponse = require('./lib/middleware/logResponse');
-const graphQLLogger = require('./lib/middleware/graphQLLogger');
+const logger = require('./logger');
 
-module.exports = (app, server) => {
+module.exports = async (app, server) => {
   app.use(cors());
-
-  oauth(app);
-
-  const socket = socketio(server, { pingTimeout: 30000 });
-
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.get('/monitor', (req, res) => {
-    res.send('App is running');
-  });
+  const socket = socketio(server, { pingTimeout: 30000 });
+  app.set('socket', socket); // setup socket.io
 
-  app.use(logResponse);
-  app.use('/api/auth', authRoute());
+  oauth(app); // setup passport js
 
-  const logger = winston();
+  logger(app); // setup logger
 
-  app.set('logger', logger);
+  await rabbit(app); // setup rabbitMQ
 
-  app.use(graphQLLogger);
-
-  rabbit((publishData) => {
-    app.use('/api/graphql', logResponse);
-
-    app.use('/api/graphql', bodyParser.json(), verifyToken, (req, res, next) => graphqlExpress({
-      schema,
-      context: {
-        socket,
-        logger,
-        publishData,
-        decoded: req.decoded,
-      },
-      formatError: ({ message, extensions }) => {
-        const errorResponse = {
-          message,
-          code: extensions ? extensions.code : 500,
-        };
-
-        logger.error(JSON.stringify({
-          ...errorResponse,
-          request: {
-            headers: req.rawHeaders.filter((header, i) => {
-              if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) {
-                return false;
-              }
-              return true;
-            }),
-            body: req.body,
-          },
-        }));
-
-        return errorResponse;
-      },
-    })(req, res, next));
-
-    if (process.env.NODE_ENV === 'development') {
-      app.use('/api/graphiql', graphiqlExpress({
-        endpointURL: '/api/graphql',
-        passHeader: '\'token\': \'<login and place token here>\'',
-      }));
-    }
-  });
-
+  routes(app); // setup routes
 
   return app;
 };
