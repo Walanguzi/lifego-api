@@ -2,7 +2,7 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const config = require('../../config');
+const config = require('../../../config');
 
 module.exports = (app) => {
   const transformFacebookProfile = profile => ({
