@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const publish = require('../../rabbitMQ/publish');
+const publish = require('../../startup/rabbitMQ/publish');
 
 const sendMail = async (subject, text, to, callback) => {
   const transporter = nodemailer.createTransport({
