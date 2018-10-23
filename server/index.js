@@ -2,7 +2,6 @@ require('express-async-errors');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./routes');
-
 const setupTools = require('./startup');
 
 module.exports = async (app, server) => {
