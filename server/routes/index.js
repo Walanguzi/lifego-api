@@ -15,9 +15,7 @@ module.exports = (app) => {
 
   app.use('/api/auth', authRoute());
 
-  app.use('/api/graphql', logResponse);
-
-  app.use('/api/graphql', bodyParser.json(), verifyToken, (req, res, next) => graphqlExpress({
+  app.use('/api/graphql', [bodyParser.json(), verifyToken, logResponse], (req, res, next) => graphqlExpress({
     schema,
     context: {
       socket: app.get('socket'),
