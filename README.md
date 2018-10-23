@@ -88,6 +88,22 @@ Run the following commands to test app:
 #### Generating coverage report
   `npm run coverage`
 
+## Load testing
+#### Setup
+On mac you can run,
+
+  `brew tap loadimpact/k6`
+
+  `brew install k6`
+
+If you are on another platform, download the binary from [here][58286273].
+
+  [58286273]: https://github.com/loadimpact/k6/releases "Setup"
+
+#### Running
+Run `npm run load-test-dev` to test development.
+Run `npm run load-test-prod` to test production.
+
 ## Api documentation
 [Click here][58286272]
 
