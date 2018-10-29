@@ -6,9 +6,8 @@ module.exports = mung.json(({ token, password, ...response }, req, res) => {
   body.statusCode = res.statusCode;
 
   req.app.get('logger').log('info', JSON.stringify({
+    url: req.url,
     method: req.method,
-    body: req.body,
-    response,
     date: new Date(Date.now()),
   }));
 }, { mungError: true });
