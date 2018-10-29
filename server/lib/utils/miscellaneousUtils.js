@@ -31,12 +31,9 @@ const formatError = ({ app, req }) => ({ message, extensions }) => {
   app.get('logger').error(JSON.stringify({
     ...errorResponse,
     request: {
-      headers: req.rawHeaders.filter((header, i) => {
-        if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) return false;
-
-        return true;
-      }),
+      method: req.method,
       body: req.body,
+      date: new Date(Date.now()),
     },
   }));
 

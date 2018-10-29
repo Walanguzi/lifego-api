@@ -1,18 +1,15 @@
 module.exports = (req, res, next) => {
   const originalWrite = res.write;
 
-  res.write = (data) => {
+  res.write = (response) => {
     req.app.get('logger').log('info', JSON.stringify({
-      request: req.rawHeaders.filter((header, i) => {
-        if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) return false;
-
-        return true;
-      }),
-      response: data,
+      method: req.method,
+      query: req.body,
+      response,
       date: new Date(Date.now()),
     }));
 
-    return originalWrite.call(res, data);
+    return originalWrite.call(res, response);
   };
 
   next();
