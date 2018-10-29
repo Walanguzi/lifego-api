@@ -10,7 +10,7 @@ const { formatError } = require('../lib/utils/miscellaneousUtils');
 
 module.exports = (app) => {
   app.get('/monitor', (req, res) => {
-    res.send('App is running');
+    res.status(200).send('App is running');
   });
 
   app.use('/api/auth', authRoute());
