@@ -12,9 +12,7 @@ module.exports = ({
         if (error) {
           console.error('[AMQP] publish', error);
 
-          if (offlinePubQueue) {
-            offlinePubQueue.push([exchange, routingKey, content]);
-          }
+          if (offlinePubQueue) offlinePubQueue.push([exchange, routingKey, content]);
 
           publishChannel.connection.close();
         }
@@ -22,8 +20,6 @@ module.exports = ({
   } catch (error) {
     console.error('[AMQP] publish', error.message);
 
-    if (offlinePubQueue) {
-      offlinePubQueue.push([exchange, routingKey, content]);
-    }
+    if (offlinePubQueue) offlinePubQueue.push([exchange, routingKey, content]);
   }
 };

@@ -22,9 +22,7 @@ module.exports = async (root, body, context) => {
       },
     }, body);
 
-    if (created) {
-      return item;
-    }
+    if (created) return item;
 
     return generateError({
       message: 'Name already in use',

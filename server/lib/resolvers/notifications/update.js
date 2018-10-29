@@ -8,9 +8,7 @@ module.exports = async (root, { id }, context) => {
   const existingNotification = await findById('notifications', id);
 
   if (existingNotification) {
-    if (existingNotification.read === true) {
-      return existingNotification;
-    }
+    if (existingNotification.read === true) return existingNotification;
 
     let { dataValues: notification } = await updateRecord('notifications', {
       where: { id },

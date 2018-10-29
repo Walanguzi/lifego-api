@@ -42,9 +42,7 @@ const findFollowers = async (id) => {
 
   users.forEach((follower) => {
     follower.toJSON().friends.forEach((friend) => {
-      if (friend.id === id) {
-        followers.push(follower.toJSON());
-      }
+      if (friend.id === id) followers.push(follower.toJSON());
     });
   });
 
@@ -59,9 +57,7 @@ const createUser = async (request) => {
   }, request.body);
 
   if (!request.body.social) {
-    if (created) {
-      return user;
-    }
+    if (created) return user;
 
     return null;
   }
@@ -78,9 +74,7 @@ const updateUserAndReturnToken = async ({
 }) => {
   const { count } = await findAndCount('users', { where: data });
 
-  if (count > 0) {
-    return null;
-  }
+  if (count > 0) return null;
 
   const [key] = Object.keys(data);
 

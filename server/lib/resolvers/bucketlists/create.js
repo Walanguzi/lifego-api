@@ -36,9 +36,7 @@ module.exports = async (root, body, context) => {
         items: [],
       };
 
-      if (body.dueDate && reminders === true) {
-        await scheduleEmail({ bucketlist, context });
-      }
+      if (body.dueDate && reminders === true) await scheduleEmail({ bucketlist, context });
 
       context.socket.emit('bucketlists', {
         type: 'new',
