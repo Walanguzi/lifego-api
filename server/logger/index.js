@@ -5,7 +5,7 @@ const graphQLLogger = require('../lib/middleware/graphQLLogger');
 
 const db = {
   production: process.env.MONGODB_URI,
-  development: 'mongodb://127.0.0.1:27017/lifego_logs',
+  development: 'mongodb://mongodb/lifego_logs',
   test: 'mongodb://127.0.0.1:27017/lifego_logs_test',
 };
 

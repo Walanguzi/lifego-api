@@ -46,11 +46,11 @@ WORKDIR ${appDir}
 
 # Add our package.json and install *before* adding our application files
 ADD package.json ./
-ADD wait-for-postgres.sh ./
+ADD wait-for-it.sh ./
 
-RUN chmod +x ./wait-for-postgres.sh
+RUN chmod +x ./wait-for-it.sh
 
-ENTRYPOINT ["./wait-for-postgres.sh", "postgres:5432", "--", "node", "app.js"]
+ENTRYPOINT ["./wait-for-it.sh", "postgres:5432", "--", "./wait-for-it.sh", "mongodb:27017", "--", "node", "app.js"]
 
 RUN npm i
 
