@@ -32,7 +32,7 @@ const formatError = ({ app, req }) => ({ message, extensions }) => {
     ...errorResponse,
     request: {
       method: req.method,
-      body: req.body,
+      url: req.url,
       date: new Date(Date.now()),
     },
   }));

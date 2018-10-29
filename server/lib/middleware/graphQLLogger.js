@@ -3,9 +3,8 @@ module.exports = (req, res, next) => {
 
   res.write = (response) => {
     req.app.get('logger').log('info', JSON.stringify({
+      url: req.url,
       method: req.method,
-      query: req.body,
-      response,
       date: new Date(Date.now()),
     }));
 
