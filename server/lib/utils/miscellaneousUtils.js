@@ -18,6 +18,7 @@ const asyncForEach = async (array, callback) => {
 const generateError = ({ message, code }) => {
   const error = new Error(message);
   error.extensions = { code };
+
   return error;
 };
 
@@ -31,9 +32,8 @@ const formatError = ({ app, req }) => ({ message, extensions }) => {
     ...errorResponse,
     request: {
       headers: req.rawHeaders.filter((header, i) => {
-        if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) {
-          return false;
-        }
+        if (['token', 'Token'].includes(header) || ['token', 'Token'].includes(req.rawHeaders[i - 1])) return false;
+
         return true;
       }),
       body: req.body,

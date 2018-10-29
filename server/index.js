@@ -1,7 +1,7 @@
 require('express-async-errors');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const routes = require('./routes');
+const setupRoutes = require('./routes');
 const setupTools = require('./startup');
 
 module.exports = async (app, server) => {
@@ -11,7 +11,7 @@ module.exports = async (app, server) => {
 
   await setupTools({ app, server }); // setup required tools
 
-  routes(app); // setup routes
+  setupRoutes(app); // setup routes
 
   return app;
 };
