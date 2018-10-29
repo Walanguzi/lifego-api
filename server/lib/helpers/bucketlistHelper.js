@@ -29,9 +29,7 @@ const filterByPrivacy = async (rows, context) => {
       ],
     });
 
-    if (bucketlist.userId === context.decoded.id) {
-      bucketlists.push(bucketlist);
-    }
+    if (bucketlist.userId === context.decoded.id) bucketlists.push(bucketlist);
 
     if (user) {
       const friendIds = user.friends.map(friend => friend.id);

@@ -14,14 +14,10 @@ const whenConnected = async ({ amqpConn }) => {
 module.exports = async (app) => {
   const setupPublishData = new Promise((resolve) => {
     amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, async (err, amqpConn) => {
-      if (err) {
-        console.error('[AMQP]', err.message);
-      }
+      if (err) console.error('[AMQP]', err.message);
 
       amqpConn.on('error', (error) => {
-        if (error.message !== 'Connection closing') {
-          console.error('[AMQP] conn error', error.message);
-        }
+        if (error.message !== 'Connection closing') console.error('[AMQP] conn error', error.message);
       });
 
       console.log('[AMQP] connected');

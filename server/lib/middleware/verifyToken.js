@@ -38,6 +38,7 @@ module.exports = ((request, response, next) => {
         request.decoded = decoded;
         next();
       });
+
       return;
     }
 

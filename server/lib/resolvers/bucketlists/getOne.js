@@ -6,9 +6,7 @@ module.exports = async (root, body) => {
 
   const bucketlist = await findById('bucketlists', body.id, associationOptions);
 
-  if (bucketlist) {
-    return addUserProperties(bucketlist);
-  }
+  if (bucketlist) return addUserProperties(bucketlist);
 
   return generateError({
     message: 'Bucketlist not found',
