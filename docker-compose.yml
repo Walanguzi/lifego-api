@@ -2,12 +2,13 @@ version: '3.1'
 services:
   postgres:
     image: "postgres:9.6"
+    command: -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key
     ports:
       - "5432"
     env_file:
       - .env
     volumes:
-      - ./lifego:/var/lib/postgresql/data
+      - ./lifego:/var/lib/postgresql
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
@@ -18,12 +19,15 @@ services:
       - ./data/db:/data/db
     ports:
         - 27017:27017
+    env_file:
+      - .env
     command: mongod
   web:
+    image: olivermunala/lifego-api:latest
     env_file: .env
     build: .
     ports:
       - "3002:3002"
     depends_on:
       - "postgres"
-    command: nodemon --watch server app.js
+    command: node app.js

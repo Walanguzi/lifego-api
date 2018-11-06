@@ -50,7 +50,7 @@ ADD wait-for-it.sh ./
 
 RUN chmod +x ./wait-for-it.sh
 
-ENTRYPOINT ["./wait-for-it.sh", "postgres:5432", "--", "./wait-for-it.sh", "mongodb:27017", "--", "node", "app.js"]
+ENTRYPOINT ./wait-for-it.sh $DB_HOST:$DB_PORT -- ./wait-for-it.sh $MONGODB_URI -- node app.js
 
 RUN npm i
 
