@@ -13,6 +13,10 @@ module.exports = (app) => {
     res.status(200).send('App is running');
   });
 
+  app.get('/docs', (req, res) => {
+    res.redirect('https://github.com/munala/lifego-api/blob/master/docs/endpoints.md');
+  });
+
   app.use('/api/auth', authRoute());
 
   app.use('/api/graphql', [bodyParser.json(), verifyToken, logResponse], (req, res, next) => graphqlExpress({
