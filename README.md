@@ -27,6 +27,7 @@ Run the following commands to setup:
 Add the following environment variables:
   - `EMAIL_SENDER` - Email used by app to send emails.
   - `EMAIL_PASSWORD` - Password for the above email.
+  - `DATABASE_URL` - Postgresql database url 
   - `MONGODB_URI` - Mongodb uri used by the app.
   - `NODE_ENV` - The environment in which you run the app()
   - `FACEBOOK_CLIENT_ID` - Facebook client id used for social auth.
