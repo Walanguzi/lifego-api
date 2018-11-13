@@ -52,7 +52,7 @@ RUN chmod +x ./wait-for-it.sh
 
 ENTRYPOINT ./wait-for-it.sh $DATABASE_URL -- ./wait-for-it.sh $MONGODB_URI -- node app.js
 
-RUN npm i
+RUN npm i --silent
 
 RUN npm install -g nodemon
 
