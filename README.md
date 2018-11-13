@@ -24,9 +24,10 @@ Run the following commands to setup:
 
   `sequelize db:migrate`
 
-Add the following environment variables:
+Add the following environment variables to the shell variables:
   - `EMAIL_SENDER` - Email used by app to send emails.
   - `EMAIL_PASSWORD` - Password for the above email.
+  - `DATABASE_URL` - Postgresql database url
   - `MONGODB_URI` - Mongodb uri used by the app.
   - `NODE_ENV` - The environment in which you run the app()
   - `FACEBOOK_CLIENT_ID` - Facebook client id used for social auth.
@@ -41,6 +42,8 @@ Add the following environment variables:
   - `EMAIL_SCHEDULER_TOKEN` - Token used for scheduling emails.
   - `CLOUDAMQP_URL` - Url for CloudAMQP.
 
+When using **docker-compose** create `.env` and `.env-dev` files for production and development environments respectively and populate them accordingly with the above variables.
+
 Add the following line to your hosts file `/etc/hosts`:
 
   `127.0.0.1 postgres`
@@ -50,7 +53,7 @@ Make sure you have docker installed first. Create a file `.env` and add the vari
 
 Run the following command to setup container:
 
-  `docker build -t <app name>`
+  `docker build -t lifego-api`
 
   Run the following command to run migrations:
 
@@ -66,11 +69,13 @@ Run the following commands to run app:
 #### Using docker-compose
 Run the following command to launch the app:
 
-  `docker-compose up`
+  `docker-compose up <service>`
 
 or
 
-  `docker-compose up --build` to build first before running.
+  `docker-compose up --build <service>` to build first before running.
+
+Replace `<service>` with `lifego-api-dev` for development or `lifego-api-prod` for production.
 
 Run the following command to stop:
 

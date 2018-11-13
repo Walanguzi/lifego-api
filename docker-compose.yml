@@ -6,7 +6,7 @@ services:
     ports:
       - "5432"
     env_file:
-      - .env
+      - .env-dev
     volumes:
       - ./lifego:/var/lib/postgresql
   mongodb:
@@ -20,14 +20,22 @@ services:
     ports:
         - 27017:27017
     env_file:
-      - .env
+      - .env-dev
     command: mongod
-  web:
-    image: olivermunala/lifego-api:latest
+  lifego-api-dev:
+    image: olivermunala/lifego-api-dev:latest
+    env_file: .env-dev
+    build: .
+    ports:
+      - "3003:3003"
+    depends_on:
+      - "postgres"
+      - "mongodb"
+    command: node app.js
+  lifego-api-prod:
+    image: olivermunala/lifego-api-prod:latest
     env_file: .env
     build: .
     ports:
       - "3002:3002"
-    depends_on:
-      - "postgres"
     command: node app.js

@@ -7,7 +7,7 @@ module.exports.options = {
 };
 
 module.exports.default = () => {
-  const res = http.get('https://lifego-api.herokuapp.com/monitor');
+  const res = http.get('https://api.lifegokenya.com/monitor');
   check(res, {
     success: r => r.status === 200,
   });
