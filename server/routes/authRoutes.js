@@ -11,9 +11,6 @@ const router = () => {
   userRouter.route('/login')
     .post(userController.login);
 
-  userRouter.route('/social_login')
-    .post(userController.socialLogin);
-
   userRouter.route('/change_password')
     .post(userController.changePassword);
 
