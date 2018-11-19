@@ -8,7 +8,7 @@ const server = http.Server(app);
 
 require('./server')(app, server);
 
-const port = process.env.PORT || 3002;
+const port = 3002;
 
 server.listen(port, () => {
   console.log(`Running on PORT: ${port}`); // eslint-disable-line no-console

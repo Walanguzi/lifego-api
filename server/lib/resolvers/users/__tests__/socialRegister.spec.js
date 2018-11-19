@@ -1,21 +1,7 @@
 const socialLogin = require('../socialLogin');
 
 jest.mock('../../../utils/modelUtils', () => ({
-  findOne: async () => ({}),
-}));
-
-jest.mock('jsonwebtoken', () => ({
-  sign: () => 'token',
-}));
-
-jest.mock('password-hash', () => ({
-  verify: (password, currentPassword) => {
-    if (password !== currentPassword) {
-      return false;
-    }
-
-    return true;
-  },
+  findOne: async () => null,
 }));
 
 const response = {
@@ -32,8 +18,8 @@ const request = {
   },
 };
 
-describe('socialLogin login tests', () => {
-  test('logs in successfully', async (done) => {
+describe('socialLogin register tests', () => {
+  test('returns user', async (done) => {
     await socialLogin(request, response);
 
     expect(response.redirect).toHaveBeenCalled();

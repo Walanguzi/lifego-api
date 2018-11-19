@@ -41,6 +41,7 @@ Add the following environment variables to the shell variables:
   - `POSTGRES_DB` - Postgres database used by the app.
   - `EMAIL_SCHEDULER_TOKEN` - Token used for scheduling emails.
   - `CLOUDAMQP_URL` - Url for CloudAMQP.
+  - 'FRONT_END' - Host for frontend app.
 
 When using **docker-compose** create `.env` and `.env-dev` files for production and development environments respectively and populate them accordingly with the above variables.
 

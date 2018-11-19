@@ -3,20 +3,19 @@ const FacebookStrategy = require('passport-facebook');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const config = require('../../../config');
+const socialLogin = require('../../lib/resolvers/users/socialLogin');
 
 module.exports = (app) => {
   const transformFacebookProfile = profile => ({
-    name: profile.name,
-    avatar: profile.picture.data.url,
+    displayName: profile.name,
+    pictureUrl: profile.picture.data.url,
     email: profile.email,
-    username: profile.id,
   });
 
   const transformGoogleProfile = profile => ({
-    name: profile.displayName,
-    avatar: profile.image.url,
+    displayName: profile.displayName,
+    pictureUrl: profile.image.url,
     email: profile.emails[0].value,
-    username: profile.id,
   });
 
   passport.use(new FacebookStrategy(config.facebook, (accessToken, refreshToken, profile, done) => {
@@ -39,7 +38,7 @@ module.exports = (app) => {
 
   app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: '/auth/facebook',
-  }), (req, res) => res.redirect(`OAuthLogin://login?user=${JSON.stringify(req.user)}`));
+  }), socialLogin);
 
   app.get('/auth/google/', passport.authenticate('google', {
     scope: ['openid', 'profile', 'email'],
@@ -47,5 +46,5 @@ module.exports = (app) => {
 
   app.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/auth/google',
-  }), (req, res) => res.redirect(`OAuthLogin://login?user=${JSON.stringify(req.user)}`));
+  }), socialLogin);
 };
