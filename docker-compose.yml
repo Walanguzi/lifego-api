@@ -27,15 +27,15 @@ services:
     env_file: .env-dev
     build: .
     ports:
-      - "3003:3003"
+      - "3002:3002"
     depends_on:
       - "postgres"
       - "mongodb"
-    command: node app.js
+    command: nodemon app.js
   lifego-api-prod:
     image: olivermunala/lifego-api-prod:latest
     env_file: .env
     build: .
     ports:
-      - "3002:3002"
+      - "3003:3003"
     command: node app.js

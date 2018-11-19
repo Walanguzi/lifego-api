@@ -1,26 +1,21 @@
 const jwt = require('jsonwebtoken');
 
-const { validateFields } = require('../../utils/validationUtils');
-const { createUser } = require('../../helpers/userHelper');
+const { findOne } = require('../../utils');
 
 const secret = process.env.SECRET_KEY;
 const expires = parseInt(process.env.EXPIRES, 10);
 
-module.exports = (request, response) => {
-  if (!('email' in request.body)) {
-    response.status(400);
-    response.json({ message: 'Email or password missing' });
+module.exports = async (request, response) => {
+  const host = request.useragent.isMobile ? 'OAuthLogin://' : process.env.FRONT_END;
+  const user = await findOne('users', { where: { email: request.user.email } });
+
+  if (user) {
+    const token = jwt.sign(user.dataValues, secret, { expiresIn: expires });
+
+    response.redirect(`${host}login?token=${token}`);
+
     return;
   }
 
-  validateFields(request, response, ['displayName'], async () => {
-    request.body.username = request.body.email;
-
-    const user = await createUser(request);
-
-    const token = jwt.sign(user.dataValues, secret, { expiresIn: expires });
-
-    response.status(200);
-    response.json({ token, message: `Welcome ${request.body.displayName}` });
-  });
+  response.redirect(`${host}login?user=${JSON.stringify(request.user)}`);
 };

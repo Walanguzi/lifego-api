@@ -40,23 +40,6 @@
         "message": "Successfully logged in"
     }
 
-### Social login
-**Endpoint**:  `POST: /api/auth/social_login`
-
-**Payload**:
-
-    displayName: String!
-    email: String!
-    password: String!
-    social: (Boolean=true)!
-
-**Response**:
-
-    {
-        "token": "generated token",
-        "message": "Successfully logged in"
-    }
-
 ### Reset Password
 **Endpoint**:  `POST: /api/auth/reset_password`
 
