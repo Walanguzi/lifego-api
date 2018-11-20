@@ -13,7 +13,9 @@ const db = {
 module.exports = (app) => {
   const logger = winston.createLogger({
     transports: [
-      new winston.transports.Console(),
+      new winston.transports.Console({
+        prettyPrint: object => JSON.stringify(object),
+      }),
       new winston.transports.File({
         filename: 'logs.log',
         level: 'info',
