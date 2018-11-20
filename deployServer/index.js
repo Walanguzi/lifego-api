@@ -13,7 +13,7 @@ http.createServer((req, res) => {
     const isMaster = req.ref.includes('master');
 
     if (isVerified && isAuthorized && isMaster) {
-      exec('~/lifego-api/scripts/deploy-prod.sh', (err, stdout, stderr) => {
+      exec(process.env.DEPLOY_PATH || '/home/olivermunala/lifego-api/scripts/deploy-prod.sh', (err, stdout, stderr) => {
         const error = err || stderr;
 
         if (error) return res.send(500).json({ error });
