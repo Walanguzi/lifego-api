@@ -19,6 +19,8 @@ const logger = winston.createLogger({
   ],
 });
 
+const port = 3004;
+
 http.createServer((req, res) => {
   req.on('data', (buffer) => {
     const data = JSON.parse(buffer.toString());
@@ -50,4 +52,6 @@ http.createServer((req, res) => {
   });
 
   res.end();
-}).listen(3004);
+}).listen(port, () => {
+  console.log(`Running deploy server on PORT: ${port}`); // eslint-disable-line no-console
+});
