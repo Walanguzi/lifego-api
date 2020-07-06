@@ -42,7 +42,7 @@ Add the following environment variables to the shell variables:
   - `EMAIL_SCHEDULER_TOKEN` - Token used for scheduling emails.
   - `CLOUDAMQP_URL` - Url for CloudAMQP.
   - `FRONT_END` - Host for frontend app.
-  - `DEPLOY_PATH` - path to deploy script
+  - `DEPLOY_PATH` - Path to deploy script
 
 When using **docker-compose** create `.env` and `.env-dev` files for production and development environments respectively and populate them accordingly with the above variables.
 
